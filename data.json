@@ -223,7 +223,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://i.discogs.com/tg5rsa353YCJRrIxmqaQnlklys5vaTmQP_JIPN7Ux1k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc5NTg2/MjItMTQ1Mjk0MTAy/Ny01MzY2LmpwZWc.jpeg"
     },
     {
       "id": 15,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:10:43.844Z"
+  "last_updated": "2026-06-23T18:11:09.923Z"
 }
