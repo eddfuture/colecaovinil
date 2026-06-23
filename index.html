@@ -686,72 +686,102 @@ tr.wish-editing td { background:rgba(232,145,58,.06) !important; }
   .hamburger{ display:flex; }
 
   /* ── TOPBAR ── */
-  .topbar{ padding:10px 12px; gap:8px; flex-wrap:nowrap; }
-  .topbar h2{ font-size:14px; }
-  .search-box{ min-width:0; flex:1; }
-  .search-box input{ font-size:12px; }
+  .topbar{ padding:10px 12px; gap:8px; }
+  .topbar h2{ font-size:15px; flex:1; }
+  .search-box{ min-width:0; flex:1; padding:8px 12px; }
+  .search-box input{ font-size:13px; }
   #view-toggle-btns{ display:none; }
+  .icon-btn{ padding:8px; font-size:16px; }
 
   /* ── PAGES ── */
-  .page{ padding:12px; }
+  .page{ padding:14px; }
 
   /* ── FILTER BAR ── */
   .filter-bar{
     display:flex; flex-wrap:nowrap;
-    overflow-x:auto; gap:8px; padding-bottom:6px;
+    overflow-x:auto; gap:8px; padding-bottom:8px;
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
   }
   .filter-bar::-webkit-scrollbar{ display:none; }
-  .filter-chip, .filter-select, .btn-add{
-    flex-shrink:0; font-size:11px; white-space:nowrap;
-  }
-  .sort-bar{ flex-wrap:nowrap; overflow-x:auto; gap:8px; padding-bottom:4px; }
+  .filter-chip{ flex-shrink:0; font-size:13px; padding:8px 14px; }
+  .filter-select{ flex-shrink:0; font-size:13px; padding:8px 10px; }
+  .btn-add{ flex-shrink:0; font-size:13px; padding:8px 14px; }
+
+  /* ── SORT BAR ── */
+  .sort-bar{ gap:8px; flex-wrap:nowrap; overflow-x:auto; padding-bottom:6px; }
   .sort-bar::-webkit-scrollbar{ display:none; }
   .sort-label{ display:none; }
+  .sort-select{ font-size:13px; }
+  .sort-dir-btn{ font-size:13px; }
 
-  /* ── GRID ── */
+  /* ── RESULTS COUNTER ── */
+  #results-counter{ font-size:12px; margin-bottom:10px; }
+
+  /* ── GRID — 2 colunas fixas ── */
   .records-grid{
-    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-    gap:10px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap:12px;
   }
-  .card-title{ font-size:12px; }
-  .card-artist{ font-size:9px; }
+  .card-info{ padding:10px 12px; }
+  .card-title{ font-size:13px; }
+  .card-artist{ font-size:10px; }
+  .tag{ font-size:10px; padding:3px 8px; }
 
-  /* ── MODAL ── */
+  /* ── MODAL — bottom sheet ── */
   .modal-overlay{ padding:0; align-items:flex-end; }
   .modal{
-    border-radius:18px 18px 0 0;
-    max-height:92vh; overflow-y:auto;
+    border-radius:20px 20px 0 0;
+    max-height:90vh; overflow-y:auto;
     width:100%; max-width:100%;
   }
-  .modal-grid{ grid-template-columns:1fr; }
+  .modal-body{ padding:18px 18px 32px; }
+  .modal-grid{ grid-template-columns:1fr; gap:12px; }
+  .modal-artist{ font-size:12px; }
+  .modal-title{ font-size:1.3rem; }
   .edit-grid{ grid-template-columns:1fr; }
   .edit-field.full{ grid-column:span 1; }
+  .edit-field input, .edit-field select, .edit-field textarea{ font-size:15px; padding:10px 12px; }
+  .btn-save, .btn-cancel{ font-size:14px; padding:12px; }
+  .modal-edit-btn{ font-size:13px; padding:8px 14px; }
+
+  /* ── ADD MODAL — bottom sheet ── */
+  .add-modal-overlay{ padding:0; align-items:flex-end; }
+  .add-modal{
+    padding:24px 18px 36px;
+    border-radius:20px 20px 0 0;
+    max-height:90vh; overflow-y:auto;
+  }
+  .add-modal h3{ font-size:1.2rem; margin-bottom:16px; }
+  .edit-grid{ grid-template-columns:1fr; }
 
   /* ── DASHBOARD ── */
   .stat-grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
-  .stat-num{ font-size:1.6rem; }
-  .charts-grid{ grid-template-columns:1fr; }
-  .chart-card[style*="span 2"]{ grid-column:span 1 !important; }
+  .stat-card{ padding:16px 14px; }
+  .stat-num{ font-size:1.8rem; }
+  .stat-label{ font-size:10px; }
+  .charts-grid{ grid-template-columns:1fr; gap:14px; }
+  .chart-card{ padding:16px; }
+  .chart-title{ font-size:10px; margin-bottom:14px; }
 
   /* ── WISHLIST TABLE ── */
   .wish-table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-  .wish-table th, .wish-table td{ white-space:nowrap; padding:8px 10px; font-size:11px; }
+  .wish-table thead th{ font-size:10px; padding:8px 10px; white-space:nowrap; }
+  .wish-table tbody td{ font-size:12px; padding:10px 10px; white-space:nowrap; }
+  .wish-action-btn{ font-size:12px; padding:5px 9px; }
 
-  /* ── ADD MODAL ── */
-  .add-modal{ padding:20px; border-radius:18px 18px 0 0; }
-  .add-modal h3{ font-size:1.1rem; }
-  .add-modal-overlay{ padding:0; align-items:flex-end; }
-
-  /* ── SIDEBAR STATS ── */
-  .sidebar-stats{ font-size:10px; }
+  /* ── SIDEBAR ── */
+  .sidebar{ width:260px; }
+  .logo h1{ font-size:14px; }
+  .nav-item{ font-size:14px; padding:12px 20px; }
+  .sidebar-stats{ font-size:11px; line-height:2; }
 }
 
 @media(max-width:400px){
-  .records-grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
+  .records-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px; }
   .stat-grid{ grid-template-columns:repeat(2,1fr); }
   .topbar h2{ display:none; }
+  .card-title{ font-size:12px; }
 }
 </style>
 </head>
@@ -1189,6 +1219,7 @@ let wishOwner    = 'todos';
 let currentModalList = [];
 let currentModalIdx  = -1;
 let chartsBuilt = false;
+let chartObjects = {}; // store chart instances to destroy before rebuild
 
 // ══════════════════════════════════════════
 //  GITHUB SYNC CONFIG
@@ -1678,18 +1709,24 @@ document.addEventListener('keydown', e => {
 let chartInstances = {};
 
 function buildDashboard() {
-  const total    = colecao.length;
-  const ouvidos  = colecao.filter(r => r.ouvido==='Sim').length;
-  const especiais= colecao.filter(r => r.especial==='Sim').length;
+  if (colecao.length === 0) {
+    document.getElementById('stat-grid').innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px;padding:20px">⏳ Aguardando dados...</div>';
+    return;
+  }
 
-  // Stat cards — clickable
+  const total     = colecao.length;
+  const ouvidos   = colecao.filter(r => r.ouvido==='Sim').length;
+  const especiais = colecao.filter(r => r.especial==='Sim').length;
+
+  // ── Stat cards ──
   const statDefs = [
     {n:total,    l:'Discos na coleção', c:'var(--accent)',  type:'page',     val:'colecao'},
-    {n:wishlist.length, l:'Na wishlist', c:'var(--accent2)',type:'page',     val:'wishlist'},
+    {n:wishlist.length, l:'Na wishlist',c:'var(--accent2)', type:'page',     val:'wishlist'},
     {n:ouvidos,  l:'Já ouvidos',        c:'var(--green)',  type:'ouvido',   val:'Sim'},
     {n:especiais,l:'Edições especiais', c:'var(--gold)',   type:'especial', val:'Sim'},
-    {n:colecao.filter(r=>r.dono==='Edu').length,   l:'Discos do Edu',   c:'var(--accent)',  type:'dono', val:'Edu'},
-    {n:colecao.filter(r=>r.dono==='Pedro').length, l:'Discos do Pedro', c:'var(--accent2)', type:'dono', val:'Pedro'},
+    {n:colecao.filter(r=>r.dono==='Edu').length,   l:'Discos do Edu',  c:'var(--accent)',  type:'dono', val:'Edu'},
+    {n:colecao.filter(r=>r.dono==='Pedro').length, l:'Discos do Pedro',c:'var(--accent2)', type:'dono', val:'Pedro'},
   ];
   const grid = document.getElementById('stat-grid');
   grid.innerHTML = statDefs.map((s,i) =>
@@ -1701,32 +1738,32 @@ function buildDashboard() {
     const s = statDefs[i];
     el.addEventListener('mouseenter', () => el.style.borderColor = 'var(--accent)');
     el.addEventListener('mouseleave', () => el.style.borderColor = '');
-    el.addEventListener('click', () => {
-      if (s.type === 'page') showPage(s.val);
-      else goToColecaoWith(s.type, s.val);
-    });
+    el.addEventListener('click', () => s.type==='page' ? showPage(s.val) : goToColecaoWith(s.type, s.val));
   });
 
-  if (chartsBuilt) return;
-  chartsBuilt = true;
+  // ── Helper: fresh canvas ──
+  function freshCanvas(id, height) {
+    const old = document.getElementById(id);
+    const parent = old.parentNode;
+    const nc = document.createElement('canvas');
+    nc.id = id; nc.height = height || 200;
+    parent.replaceChild(nc, old);
+    return nc;
+  }
 
   const amber = '#e8913a', teal = '#3ecfb2', muted = '#7a7168';
-  const gridC = 'rgba(50,45,38,.6)';
+  const gridC = 'rgba(50,45,38,.45)';
   Chart.defaults.color = muted;
   Chart.defaults.font.family = "'Space Grotesk', sans-serif";
 
-  // shared tooltip callback: just show the value
-  const tip = (getVal) => ({ plugins:{ tooltip:{ callbacks:{ label: ctx => getVal(ctx) } } } });
-
   // ── Donos ──
-  new Chart(document.getElementById('chart-donos'), {
+  new Chart(freshCanvas('chart-donos'), {
     type:'doughnut',
     data:{ labels:['Edu','Pedro'],
       datasets:[{data:[colecao.filter(r=>r.dono==='Edu').length, colecao.filter(r=>r.dono==='Pedro').length],
         backgroundColor:[amber,teal], borderWidth:0, hoverOffset:6}]},
-    options:{
-      cutout:'68%',
-      plugins:{ legend:{position:'bottom'}, tooltip:{callbacks:{label: ctx => `${ctx.label}: ${ctx.parsed}`}} },
+    options:{ cutout:'68%',
+      plugins:{ legend:{position:'bottom'}, tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed}`}} },
       onClick(_,els){ if(els[0]) goToColecaoWith('dono',['Edu','Pedro'][els[0].index]); }
     }
   });
@@ -1735,13 +1772,12 @@ function buildDashboard() {
   const anosCounts = {};
   colecao.forEach(r => { anosCounts[r.compra] = (anosCounts[r.compra]||0)+1; });
   const anosLabels = Object.keys(anosCounts).sort();
-  new Chart(document.getElementById('chart-anos'), {
+  new Chart(freshCanvas('chart-anos'), {
     type:'bar',
     data:{ labels:anosLabels,
       datasets:[{data:anosLabels.map(a=>anosCounts[a]),
         backgroundColor:amber, hoverBackgroundColor:teal, borderRadius:5, borderSkipped:false}]},
-    options:{
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.y}} },
+    options:{ plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y}}},
       scales:{ y:{grid:{color:gridC}}, x:{grid:{display:false}} },
       onClick(_,els){ if(els[0]) goToColecaoWith('ano', anosLabels[els[0].index]); }
     }
@@ -1750,17 +1786,15 @@ function buildDashboard() {
   // ── Gêneros ──
   const genCounts = {};
   colecao.forEach(r => { genCounts[r.genero] = (genCounts[r.genero]||0)+1; });
-  const sorted  = Object.entries(genCounts).sort((a,b)=>b[1]-a[1]);
+  const sorted = Object.entries(genCounts).sort((a,b)=>b[1]-a[1]);
   const palette = [amber,teal,'#d4523a','#f0c040','#5a9fd4','#5ecf7a','#c87ab0','#7ab878','#6a9ab8','#c84a4a','#a8c870','#7a78c8','#c8784a','#78c896','#c8b478','#4ac8c8','#9a7ac8'];
-  new Chart(document.getElementById('chart-generos'), {
+  new Chart(freshCanvas('chart-generos', 160), {
     type:'bar',
     data:{ labels:sorted.map(x=>x[0]),
-      datasets:[{data:sorted.map(x=>x[1]),
-        backgroundColor:palette, hoverBackgroundColor:'rgba(255,255,255,.2)',
-        borderRadius:4, borderSkipped:false}]},
-    options:{
-      indexAxis:'y',
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.x}} },
+      datasets:[{data:sorted.map(x=>x[1]), backgroundColor:palette,
+        hoverBackgroundColor:'rgba(255,255,255,.2)', borderRadius:4, borderSkipped:false}]},
+    options:{ indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.x}}},
       scales:{ x:{grid:{color:gridC}, ticks:{stepSize:1}}, y:{grid:{display:false}} },
       onClick(_,els){ if(els[0]) goToColecaoWith('genero', sorted[els[0].index][0]); }
     }
@@ -1774,62 +1808,42 @@ function buildDashboard() {
     if (dec[k]!==undefined) dec[k]++;
   });
   const decLabels = Object.keys(dec);
-  new Chart(document.getElementById('chart-decadas'), {
+  new Chart(freshCanvas('chart-decadas'), {
     type:'bar',
     data:{ labels:decLabels,
-      datasets:[{data:Object.values(dec),
-        backgroundColor:teal, hoverBackgroundColor:amber, borderRadius:4, borderSkipped:false}]},
-    options:{
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.y}} },
+      datasets:[{data:Object.values(dec), backgroundColor:teal,
+        hoverBackgroundColor:amber, borderRadius:4, borderSkipped:false}]},
+    options:{ plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y}}},
       scales:{ y:{grid:{color:gridC}}, x:{grid:{display:false}} },
-      onClick(_,els){
-        if(!els[0]) return;
-        const base = parseInt(decLabels[els[0].index]);
-        goToColecaoWithDecada(base);
-      }
+      onClick(_,els){ if(els[0]) goToColecaoWithDecada(parseInt(decLabels[els[0].index])); }
     }
   });
 
   // ── Ouvidos ──
-  new Chart(document.getElementById('chart-ouvidos'), {
+  new Chart(freshCanvas('chart-ouvidos'), {
     type:'doughnut',
     data:{ labels:['Já ouvi','Ainda não'],
       datasets:[{data:[ouvidos, total-ouvidos],
         backgroundColor:[teal,'rgba(50,45,38,.8)'], hoverOffset:6, borderWidth:0}]},
-    options:{
-      cutout:'68%',
-      plugins:{ legend:{position:'bottom'}, tooltip:{callbacks:{label: ctx => `${ctx.label}: ${ctx.parsed}`}} },
-      onClick(_,els){ if(els[0]) { els[0].index===0 ? goToColecaoWith('ouvido','Sim') : goToColecaoWith('naoouvido',''); } }
+    options:{ cutout:'68%',
+      plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed}`}}},
+      onClick(_,els){ if(els[0]) els[0].index===0 ? goToColecaoWith('ouvido','Sim') : goToColecaoWith('naoouvido',''); }
     }
   });
 
-  ['chart-donos','chart-anos','chart-generos','chart-decadas','chart-ouvidos']
-    .forEach(id => document.getElementById(id).style.cursor = 'pointer');
-
-  // ── Evolução da coleção ──
+  // ── Evolução ──
   const byYear = {};
-  colecao.slice().sort((a,b)=>a.compra-b.compra).forEach(r => {
-    byYear[r.compra] = (byYear[r.compra]||0) + 1;
-  });
+  colecao.forEach(r => { byYear[r.compra] = (byYear[r.compra]||0)+1; });
   const evoYears = Object.keys(byYear).sort();
-  let cumulative = 0;
-  const evoData = evoYears.map(y => { cumulative += byYear[y]; return cumulative; });
-  new Chart(document.getElementById('chart-evolucao'), {
-    type: 'line',
-    data: {
-      labels: evoYears,
-      datasets: [{
-        data: evoData,
-        borderColor: amber,
-        backgroundColor: 'rgba(232,145,58,.15)',
-        fill: true, tension: 0.35,
-        pointBackgroundColor: amber, pointRadius: 5, pointHoverRadius: 7,
-        borderWidth: 2
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' discos no total' } } },
-      scales: { y: { grid: { color: gridC }, beginAtZero: true }, x: { grid: { display: false } } }
+  let cum = 0;
+  const evoData = evoYears.map(y => { cum += byYear[y]; return cum; });
+  new Chart(freshCanvas('chart-evolucao'), {
+    type:'line',
+    data:{ labels:evoYears,
+      datasets:[{ data:evoData, borderColor:amber, backgroundColor:'rgba(232,145,58,.15)',
+        fill:true, tension:0.35, pointBackgroundColor:amber, pointRadius:5, pointHoverRadius:7, borderWidth:2 }]},
+    options:{ plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y+' discos no total'}}},
+      scales:{ y:{grid:{color:gridC}, beginAtZero:true}, x:{grid:{display:false}} }
     }
   });
 
@@ -1837,25 +1851,22 @@ function buildDashboard() {
   const artistCount = {};
   colecao.forEach(r => { artistCount[r.artista] = (artistCount[r.artista]||0)+1; });
   const topArtistas = Object.entries(artistCount).filter(x=>x[1]>1).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  new Chart(document.getElementById('chart-top-artistas'), {
-    type: 'bar',
-    data: {
-      labels: topArtistas.map(x=>x[0]),
-      datasets: [{ data: topArtistas.map(x=>x[1]),
-        backgroundColor: amber, hoverBackgroundColor: teal,
-        borderRadius: 4, borderSkipped: false }]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.x + ' discos' } } },
-      scales: {
-        x: { grid: { color: gridC }, ticks: { stepSize: 1 } },
-        y: { grid: { display: false } }
-      },
-      onClick(_, els) { if(els[0]) goToColecaoWith('artista_nome', topArtistas[els[0].index][0]); }
-    }
-  });
-  document.getElementById('chart-top-artistas').style.cursor = 'pointer';
+  if (topArtistas.length > 0) {
+    new Chart(freshCanvas('chart-top-artistas'), {
+      type:'bar',
+      data:{ labels:topArtistas.map(x=>x[0]),
+        datasets:[{data:topArtistas.map(x=>x[1]), backgroundColor:amber,
+          hoverBackgroundColor:teal, borderRadius:4, borderSkipped:false}]},
+      options:{ indexAxis:'y',
+        plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.x+' discos'}}},
+        scales:{ x:{grid:{color:gridC}, ticks:{stepSize:1}}, y:{grid:{display:false}} },
+        onClick(_,els){ if(els[0]) goToColecaoWith('artista_nome', topArtistas[els[0].index][0]); }
+      }
+    });
+  }
+
+  ['chart-donos','chart-anos','chart-generos','chart-decadas','chart-ouvidos','chart-evolucao','chart-top-artistas']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.style.cursor='pointer'; });
 }
 
 // ══════════════════════════════════════════
@@ -1875,7 +1886,7 @@ function showPage(id) {
   if (vt) vt.style.display = id==='colecao' ? '' : 'none';
   const si = document.getElementById('search-input');
   if (si) si.placeholder = id==='wishlist' ? 'Buscar na wishlist…' : id==='colecao' ? 'Buscar na coleção…' : '';
-  if (id==='dashboard') buildDashboard();
+  if (id==='dashboard') { chartsBuilt = false; buildDashboard(); }
   if (id==='wishlist')  renderWishlist();
   if (id==='colecao')   applyFilters();
   if (window.innerWidth<=768) closeSidebar();
@@ -2059,6 +2070,9 @@ function showSyncStatus(msg, color) {
 
 async function loadFromGitHub() {
   showSyncStatus('⏳ Carregando...', 'var(--muted)');
+  // show loading placeholder in dashboard
+  const sg = document.getElementById('stat-grid');
+  if (sg) sg.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px;padding:20px">⏳ Carregando dados...</div>';
   try {
     const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
       headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
@@ -2069,11 +2083,18 @@ async function loadFromGitHub() {
     const data = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
     if (data.colecao) { colecao.length = 0; data.colecao.forEach(r => colecao.push(r)); }
     if (data.wishlist) { wishlist.length = 0; data.wishlist.forEach(r => wishlist.push(r)); }
+    chartsBuilt = false;
+    // rebuild whatever page is active
+    const dashPage = document.getElementById('page-dashboard');
+    if (dashPage && dashPage.classList.contains('active')) buildDashboard();
     showSyncStatus('✅ Sincronizado', 'var(--accent2)');
     setTimeout(() => showSyncStatus(''), 3000);
   } catch(e) {
     showSyncStatus('⚠️ Offline — dados locais', 'var(--gold)');
     loadFromLocalStorage();
+    chartsBuilt = false;
+    const dashPage = document.getElementById('page-dashboard');
+    if (dashPage && dashPage.classList.contains('active')) buildDashboard();
   }
 }
 
