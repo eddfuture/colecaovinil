@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<title>Coleção de Vinil</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --bg:       #0e0c0a;
+  --surface:  #161310;
+  --surface2: #1e1b17;
+  --surface3: #27231d;
+  --border:   #322d26;
+  --text:     #ede8e0;
+  --muted:    #7a7168;
+  --accent:   #e8913a;
+  --accent2:  #3ecfb2;
+  --red:      #d4523a;
+  --gold:     #f0c040;
+  --blue:     #5a9fd4;
+  --green:    #5ecf7a;
+}
+
+body.light-mode {
+  --bg:       #f5f0e8;
+  --surface:  #ffffff;
+  --surface2: #ede8de;
+  --surface3: #e0d9cc;
+  --border:   #ccc4b4;
+  --text:     #1a1510;
+  --muted:    #7a6e60;
+  --accent:   #c4701a;
+  --accent2:  #1a9e8a;
+  --red:      #b83820;
+  --gold:     #b89010;
+  --blue:     #2a6ea0;
+  --green:    #2a8a44;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── LAYOUT ── */
+.app{ display:flex; min-height:100vh; }
+
+.sidebar {
+  width:230px;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  position:fixed; top:0; left:0; bottom:0;
+  display:flex; flex-direction:column;
+  z-index:100; overflow-y:auto;
+  transition:transform .25s;
+}
+
+.logo {
+  padding:24px 20px 18px;
+  border-bottom:1px solid var(--border);
+}
+
+.logo-mark {
+  width:36px; height:36px; border-radius:50%;
+  background: conic-gradient(from 0deg,#2a2520 0%,#332e28 25%,#2a2520 50%,#332e28 75%,#2a2520 100%);
+  border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:10px; position:relative;
+}
+.logo-mark::after {
+  content:'';
+  width:11px; height:11px; border-radius:50%;
+  background:var(--accent); opacity:.9;
+}
+
+.logo h1 {
+  font-family:'Space Mono',monospace;
+  font-size:13px; color:var(--accent);
+  letter-spacing:.1em; text-transform:uppercase;
+}
+.logo span { font-size:11px; color:var(--muted); display:block; margin-top:3px; }
+
+.nav-section {
+  font-family:'Space Mono',monospace;
+  font-size:9px; letter-spacing:.15em; color:var(--muted);
+  padding:16px 20px 6px; text-transform:uppercase;
+}
+
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 20px; cursor:pointer;
+  color:var(--muted); font-size:13px; font-weight:500;
+  transition:all .15s;
+  border-left:2px solid transparent;
+  user-select:none;
+}
+.nav-item:hover{ color:var(--text); background:var(--surface2); }
+.nav-item.active{ color:var(--accent); border-left-color:var(--accent); background:rgba(232,145,58,.08); }
+.nav-item .icon{ font-size:16px; width:20px; text-align:center; }
+
+.sidebar-stats {
+  padding:16px 20px;
+  border-top:1px solid var(--border);
+  font-size:11px; color:var(--muted); line-height:1.9;
+  margin-top:auto;
+}
+.sidebar-stats strong{ color:var(--text); }
+
+/* ── MAIN ── */
+.main{ margin-left:230px; flex:1; min-height:100vh; }
+
+.topbar {
+  position:sticky; top:0; z-index:50;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:13px 28px;
+  display:flex; align-items:center; gap:14px;
+}
+.topbar h2{ font-size:16px; font-weight:600; flex:1; }
+
+.search-box {
+  display:flex; align-items:center; gap:8px;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; padding:7px 14px; min-width:220px;
+}
+.search-box input {
+  background:none; border:none; outline:none;
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; width:100%;
+}
+.search-box input::placeholder{ color:var(--muted); }
+
+.icon-btn {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; color:var(--muted); cursor:pointer;
+  padding:7px 10px; font-size:14px; transition:all .15s;
+}
+.icon-btn:hover{ color:var(--text); border-color:var(--accent); }
+.icon-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+.view-toggle {
+  display:flex; gap:3px;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; padding:3px;
+}
+.view-btn {
+  padding:5px 9px; border-radius:6px; border:none;
+  background:transparent; color:var(--muted);
+  cursor:pointer; font-size:14px; transition:all .15s;
+}
+.view-btn.active{ background:var(--accent); color:#fff; }
+
+/* ── PAGES ── */
+.page{ display:none; padding:28px; }
+.page.active{ display:block; }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display:flex; gap:10px; flex-wrap:wrap;
+  align-items:center; margin-bottom:22px;
+}
+.filter-chip {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:12px; padding:5px 13px; border-radius:20px;
+  cursor:pointer; transition:all .15s;
+}
+.filter-chip:hover{ border-color:var(--accent); color:var(--text); }
+.filter-chip.active{ background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
+
+select.filter-select {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:12px; padding:5px 10px; border-radius:8px;
+  cursor:pointer; outline:none;
+}
+select.filter-select:focus{ border-color:var(--accent); }
+
+/* ── GRID ── */
+.records-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+}
+
+.record-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; cursor:pointer;
+  transition:transform .18s, border-color .18s, box-shadow .18s;
+}
+.record-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+.card-cover {
+  width:100%; aspect-ratio:1;
+  background:var(--surface2);
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+
+/* Vinyl illustration */
+.vinyl-disc {
+  width:78%; aspect-ratio:1; border-radius:50%;
+  background: repeating-conic-gradient(#1c1916 0deg 8deg, #211e19 8deg 16deg);
+  box-shadow:0 0 0 1px #2a2520, inset 0 0 0 6px #17140f;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .6s ease;
+}
+.record-card:hover .vinyl-disc{ transform:rotate(15deg); }
+.vinyl-disc.v-blue   { background:repeating-conic-gradient(#19253a 0deg 8deg,#1d2d46 8deg 16deg); }
+.vinyl-disc.v-green  { background:repeating-conic-gradient(#1a2e1a 0deg 8deg,#1f3820 8deg 16deg); }
+.vinyl-disc.v-amber  { background:repeating-conic-gradient(#2a2010 0deg 8deg,#342816 8deg 16deg); }
+.vinyl-disc.v-clear  { background:repeating-conic-gradient(#1e2a2a 0deg 8deg,#22312e 8deg 16deg); }
+.vinyl-disc.v-red    { background:repeating-conic-gradient(#2a1414 0deg 8deg,#341818 8deg 16deg); }
+
+.vinyl-label {
+  width:35%; aspect-ratio:1; border-radius:50%;
+  background:var(--surface3);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4);
+  position:relative; z-index:1;
+}
+.vinyl-label-dot {
+  width:22%; aspect-ratio:1; border-radius:50%; background:var(--bg);
+}
+
+/* label colors per genre */
+.lc-jazz   .vinyl-label { background:#d4a84a; }
+.lc-rock   .vinyl-label { background:#6a9ab8; }
+.lc-pop    .vinyl-label { background:#c87ab0; }
+.lc-rap    .vinyl-label { background:#7ab878; }
+.lc-metal  .vinyl-label { background:#8a8a8a; }
+.lc-soul   .vinyl-label { background:#c87a4a; }
+.lc-trilha .vinyl-label { background:#9a7ac8; }
+.lc-classico .vinyl-label{ background:#c8b478; }
+.lc-latam  .vinyl-label { background:#c84a4a; }
+.lc-disco  .vinyl-label { background:#4ac8c8; }
+.lc-new-wave .vinyl-label{ background:#7a78c8; }
+.lc-city-pop .vinyl-label{ background:#c8784a; }
+.lc-soft-rock .vinyl-label{ background:#78c896; }
+.lc-fusion .vinyl-label { background:#a8c870; }
+
+.badge-especial {
+  position:absolute; top:8px; right:8px;
+  background:var(--gold); color:#1a1200;
+  font-size:9px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; padding:3px 7px; border-radius:4px; z-index:2;
+}
+.badge-ouvido {
+  position:absolute; top:8px; left:8px;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--accent2); color:#0a1a16;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; z-index:2;
+}
+
+.card-info{ padding:13px 14px; }
+.card-artist {
+  font-size:10px; font-weight:600; color:var(--accent);
+  text-transform:uppercase; letter-spacing:.08em;
+  margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.card-title {
+  font-family:'DM Serif Display',serif; font-size:14px;
+  color:var(--text); line-height:1.25; margin-bottom:8px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.card-meta { display:flex; gap:6px; flex-wrap:wrap; }
+.tag {
+  font-size:10px; color:var(--muted);
+  border:1px solid var(--border); padding:2px 7px; border-radius:10px;
+}
+.card-obs{
+  font-size:10px; color:var(--muted); font-style:italic;
+  margin-top:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* ── LIST VIEW ── */
+.records-table{ width:100%; border-collapse:collapse; }
+.records-table th{
+  padding:9px 12px; font-size:10px; font-weight:600;
+  color:var(--muted); text-transform:uppercase; letter-spacing:.08em;
+  text-align:left; border-bottom:1px solid var(--border);
+  background:var(--surface); cursor:pointer; user-select:none; white-space:nowrap;
+}
+.records-table th:hover{ color:var(--text); }
+.records-table th.sorted{ color:var(--accent); }
+.sort-icon{ margin-left:3px; opacity:.5; font-size:9px; }
+.records-table td{
+  padding:9px 12px; font-size:12px; border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.records-table tr{ cursor:pointer; transition:background .1s; }
+.records-table tr:hover td{ background:var(--surface2); }
+.records-table tr:last-child td{ border-bottom:none; }
+.tbl-cover {
+  width:28px; height:28px; border-radius:50%;
+  background: repeating-conic-gradient(#1c1916 0deg 10deg, #211e19 10deg 20deg);
+  box-shadow:0 0 0 1px var(--border);
+  flex-shrink:0; display:inline-block;
+}
+
+/* ── DASHBOARD ── */
+.stat-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px; margin-bottom:28px;
+}
+.stat-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:20px 18px;
+}
+.stat-num {
+  font-family:'DM Serif Display',serif; font-size:2.2rem;
+  color:var(--accent); display:block; line-height:1;
+}
+.stat-label {
+  font-size:10px; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.1em; margin-top:5px;
+}
+
+.charts-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+}
+.chart-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:22px;
+}
+.chart-title {
+  font-size:10px; text-transform:uppercase; letter-spacing:.15em;
+  color:var(--muted); margin-bottom:18px; font-weight:600;
+}
+
+/* ── WISHLIST ── */
+.wish-table{ width:100%; border-collapse:collapse; }
+.wish-table th{
+  padding:9px 14px; font-size:10px; font-weight:600;
+  color:var(--muted); text-transform:uppercase; letter-spacing:.08em;
+  text-align:left; border-bottom:1px solid var(--border); background:var(--surface);
+  cursor:pointer; user-select:none;
+}
+.wish-table th:hover{ color:var(--text); }
+.wish-table th.sorted{ color:var(--accent); }
+.wish-table td{
+  padding:10px 14px; font-size:12px;
+  border-bottom:1px solid var(--border); vertical-align:middle;
+}
+.wish-table tr{ cursor:default; transition:background .1s; }
+.wish-table tr:hover td{ background:var(--surface2); }
+.wish-table tr:last-child td{ border-bottom:none; }
+
+.owner-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:600;
+}
+.owner-dot {
+  width:7px; height:7px; border-radius:50%; display:inline-block;
+}
+.owner-dot.edu   { background:var(--accent); }
+.owner-dot.pedro { background:var(--accent2); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.75); z-index:200;
+  align-items:center; justify-content:center; padding:20px;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.open{ display:flex; }
+
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:14px; width:100%; max-width:520px;
+  overflow:hidden; position:relative;
+}
+
+.modal-cover {
+  width:100%; aspect-ratio:1;
+  background:var(--surface2);
+  display:flex; align-items:center; justify-content:center;
+  border-bottom:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+
+.modal-disc {
+  width:160px; height:160px; border-radius:50%;
+  background:repeating-conic-gradient(#1c1916 0deg 8deg,#211e19 8deg 16deg);
+  box-shadow:0 0 0 1px #2a2520;
+  display:flex; align-items:center; justify-content:center;
+  animation:spin 12s linear infinite;
+}
+.modal-disc.paused{ animation-play-state:paused; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.modal-disc-label {
+  width:56px; height:56px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-disc-label-dot {
+  width:14px; height:14px; border-radius:50%; background:var(--bg);
+}
+
+.modal-nav {
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:transparent; border:none;
+  width:40px; height:80px;
+  cursor:pointer; font-size:0; color:transparent;
+  z-index:2;
+}
+.modal-nav.prev{ left:0; }
+.modal-nav.next{ right:0; }
+
+/* edit form */
+.modal-edit-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--surface3); border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:11px; font-weight:600; letter-spacing:.04em;
+  padding:5px 12px; border-radius:6px; cursor:pointer;
+  transition:all .15s; margin-top:14px;
+}
+.modal-edit-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.modal-edit-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+.edit-form { display:none; margin-top:16px; border-top:1px solid var(--border); padding-top:16px; }
+.edit-form.open { display:block; }
+
+.edit-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;
+}
+.edit-field { display:flex; flex-direction:column; gap:4px; }
+.edit-field.full { grid-column:span 2; }
+.edit-field label {
+  font-size:10px; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.08em; font-weight:600;
+}
+.edit-field input,
+.edit-field select,
+.edit-field textarea {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; padding:7px 10px; border-radius:6px; outline:none;
+  transition:border-color .15s;
+}
+.edit-field input:focus,
+.edit-field select:focus,
+.edit-field textarea:focus { border-color:var(--accent); }
+.edit-field textarea { resize:vertical; min-height:60px; }
+
+.edit-cover-preview {
+  width:100%; height:80px; border-radius:6px;
+  background:var(--surface3); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; margin-top:6px;
+}
+.edit-cover-preview img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+.edit-cover-placeholder { font-size:11px; color:var(--muted); }
+
+.edit-actions { display:flex; gap:8px; margin-top:4px; }
+.btn-save {
+  flex:1; padding:9px; border-radius:8px; border:none;
+  background:var(--accent); color:#fff;
+  font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600;
+  cursor:pointer; transition:opacity .15s;
+}
+.btn-save:hover{ opacity:.85; }
+.btn-cancel {
+  padding:9px 16px; border-radius:8px;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; cursor:pointer; transition:all .15s;
+}
+.btn-cancel:hover{ border-color:var(--red); color:var(--red); }
+
+.modal-close {
+  position:absolute; top:12px; right:12px;
+  background:rgba(0,0,0,.5); border:1px solid var(--border);
+  border-radius:50%; width:28px; height:28px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:13px; color:var(--text);
+  transition:background .15s; z-index:2;
+}
+.modal-close:hover{ background:var(--red); }
+
+.modal-body{ padding:22px 24px; }
+.modal-artist {
+  font-size:11px; font-weight:600; color:var(--accent);
+  text-transform:uppercase; letter-spacing:.1em; margin-bottom:5px;
+}
+.modal-title {
+  font-family:'DM Serif Display',serif; font-size:1.5rem;
+  color:var(--text); line-height:1.2; margin-bottom:14px;
+}
+.modal-tags{ display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px; }
+.modal-tag {
+  font-size:11px; border:1px solid var(--border);
+  padding:3px 9px; border-radius:10px; color:var(--muted);
+}
+.modal-tag.highlight{ border-color:var(--gold); color:var(--gold); }
+.modal-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; font-size:12px;
+}
+.modal-field label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; display:block; margin-bottom:3px; }
+.modal-field span { color:var(--text); }
+
+/* ── EDIT FORM ── */
+.modal-edit-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--surface3); border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:11px; font-weight:600; letter-spacing:.04em;
+  padding:6px 13px; border-radius:6px; cursor:pointer;
+  transition:all .15s; margin-top:16px;
+}
+.modal-edit-btn:hover{ border-color:var(--accent); color:var(--accent); }
+
+.edit-form { display:none; margin-top:16px; border-top:1px solid var(--border); padding-top:16px; }
+.edit-form.open { display:block; }
+
+.edit-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.edit-field { display:flex; flex-direction:column; gap:4px; }
+.edit-field.full { grid-column:span 2; }
+.edit-field label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:600; }
+.edit-field input,
+.edit-field select,
+.edit-field textarea {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; padding:7px 10px; border-radius:6px; outline:none;
+  transition:border-color .15s;
+}
+.edit-field input:focus,
+.edit-field select:focus,
+.edit-field textarea:focus { border-color:var(--accent); }
+.edit-field textarea { resize:vertical; min-height:56px; }
+
+.edit-cover-preview {
+  width:100%; height:90px; border-radius:6px;
+  background:var(--surface3); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; margin-top:6px;
+}
+.edit-cover-placeholder { font-size:11px; color:var(--muted); }
+
+.edit-actions { display:flex; gap:8px; margin-top:4px; }
+.btn-save {
+  flex:1; padding:9px; border-radius:8px; border:none;
+  background:var(--accent); color:#fff;
+  font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600;
+  cursor:pointer; transition:opacity .15s;
+}
+.btn-save:hover{ opacity:.85; }
+.btn-cancel {
+  padding:9px 16px; border-radius:8px;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; cursor:pointer; transition:all .15s;
+}
+.btn-cancel:hover{ border-color:var(--red); color:var(--red); }
+
+/* ── SORT BAR ── */
+.sort-bar {
+  display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.sort-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; }
+.sort-select {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:12px; padding:5px 10px; border-radius:8px;
+  cursor:pointer; outline:none; transition:border-color .15s;
+}
+.sort-select:focus{ border-color:var(--accent); }
+.sort-dir-btn {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--muted); font-size:13px; padding:5px 10px;
+  border-radius:8px; cursor:pointer; transition:all .15s; line-height:1;
+}
+.sort-dir-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.sort-dir-btn.asc::after  { content:' ↑'; }
+.sort-dir-btn.desc::after { content:' ↓'; }
+
+/* ── ADD BUTTON ── */
+.btn-add {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--accent); border:none; color:#fff;
+  font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600;
+  padding:7px 14px; border-radius:8px; cursor:pointer;
+  transition:opacity .15s; white-space:nowrap; margin-left:auto;
+}
+.btn-add:hover{ opacity:.85; }
+
+/* ── ADD MODAL ── */
+.add-modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.75); z-index:300;
+  align-items:center; justify-content:center; padding:20px;
+  backdrop-filter:blur(6px);
+}
+.add-modal-overlay.open{ display:flex; }
+.add-modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:14px; width:100%; max-width:500px;
+  max-height:90vh; overflow-y:auto; padding:28px; position:relative;
+}
+.add-modal h3 {
+  font-family:'DM Serif Display',serif; font-size:1.3rem;
+  color:var(--text); margin-bottom:18px;
+}
+.add-modal-close {
+  position:absolute; top:14px; right:14px;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:50%; width:28px; height:28px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:13px; color:var(--muted);
+  transition:background .15s;
+}
+.add-modal-close:hover{ background:var(--red); color:#fff; }
+.hamburger {
+  display:none; background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; padding:7px 10px; cursor:pointer; font-size:16px; color:var(--text);
+}
+.sidebar-overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; }
+
+/* ── TOAST ── */
+#toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--surface3); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:13px; padding:10px 20px; border-radius:10px;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+  opacity:0; transition:opacity .25s, transform .25s; z-index:500;
+  pointer-events:none; white-space:nowrap;
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+#toast.success { border-color:var(--accent2); color:var(--accent2); }
+#toast.error   { border-color:var(--red);     color:var(--red); }
+
+/* ── WISHLIST INLINE EDIT ── */
+.wish-action-btn {
+  background:none; border:1px solid var(--border);
+  border-radius:6px; color:var(--muted);
+  font-size:11px; padding:4px 8px; cursor:pointer;
+  transition:all .15s; font-family:'Space Grotesk',sans-serif;
+  white-space:nowrap;
+}
+.wish-action-btn:hover { border-color:var(--accent); color:var(--accent); }
+.wish-action-btn.del:hover { border-color:var(--red); color:var(--red); }
+.wish-action-btn.save { background:var(--accent); border-color:var(--accent); color:#fff; }
+.wish-action-btn.save:hover { opacity:.85; }
+.wish-inline-input {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:12px; padding:4px 8px; border-radius:6px;
+  outline:none; width:100%; min-width:60px; transition:border-color .15s;
+}
+.wish-inline-input:focus { border-color:var(--accent); }
+.wish-inline-select {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'Space Grotesk',sans-serif;
+  font-size:12px; padding:4px 8px; border-radius:6px;
+  outline:none; cursor:pointer; transition:border-color .15s;
+}
+.wish-inline-select:focus { border-color:var(--accent); }
+tr.wish-editing td { background:rgba(232,145,58,.06) !important; }
+
+@media(max-width:768px){
+  .sidebar{ transform:translateX(-100%); }
+  .sidebar.open{ transform:translateX(0); }
+  .sidebar-overlay.open{ display:block; }
+  .main{ margin-left:0; }
+  .hamburger{ display:flex; }
+  .records-grid{ grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; }
+  .page{ padding:16px; }
+  .topbar{ padding:10px 16px; }
+  .modal-grid{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body class="light-mode">
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <h1>Coleção de Vinil</h1>
+    <span>Coleção · Edu & Pedro</span>
+  </div>
+
+  <nav class="nav" style="padding:12px 0; flex:1;">
+    <div class="nav-section">Acervo</div>
+    <div class="nav-item active" id="nav-colecao" onclick="showPage('colecao')">
+      <span class="icon">💿</span> Coleção
+    </div>
+    <div class="nav-item" id="nav-wishlist" onclick="showPage('wishlist')">
+      <span class="icon">✦</span> Wishlist
+    </div>
+
+    <div class="nav-section">Análise</div>
+    <div class="nav-item" id="nav-dashboard" onclick="showPage('dashboard')">
+      <span class="icon">▦</span> Dashboard
+    </div>
+
+    <div class="nav-section">Exibir</div>
+    <div class="nav-item" id="nav-edu" onclick="filterSidebar('Edu','nav-edu')">
+      <span class="icon" style="color:var(--accent)">●</span> Coleção do Edu
+    </div>
+    <div class="nav-item" id="nav-pedro" onclick="filterSidebar('Pedro','nav-pedro')">
+      <span class="icon" style="color:var(--accent2)">●</span> Coleção do Pedro
+    </div>
+  </nav>
+
+  <div class="sidebar-stats" id="sidebar-stats">
+    <!-- filled by JS -->
+  </div>
+</aside>
+
+<!-- sidebar overlay mobile -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="hamburger" onclick="openSidebar()">☰</button>
+    <h2 id="topbar-title">Coleção</h2>
+    <div class="search-box" id="global-search-box">
+      <span style="color:var(--muted);font-size:13px">⌕</span>
+      <input type="text" id="search-input" placeholder="Buscar em qualquer aba…" oninput="globalSearch(this.value)">
+    </div>
+    <div class="view-toggle" id="view-toggle-btns">
+      <button class="view-btn active" id="vbtn-grid" onclick="setView('grid')" title="Grade">⊞</button>
+      <button class="view-btn" id="vbtn-list" onclick="setView('list')" title="Lista">☰</button>
+    </div>
+    <button class="icon-btn" onclick="exportData()" title="Exportar JSON">⬇</button>
+    <label class="icon-btn edit-only" title="Importar JSON" style="cursor:pointer;">⬆<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+    <button class="icon-btn" onclick="toggleLight()" title="Alternar tema">◑</button>
+  </div>
+
+  <!-- PAGE: COLEÇÃO -->
+  <div class="page active" id="page-colecao">
+    <div class="filter-bar" id="filter-bar">
+      <select class="filter-select" id="filter-ouvido" onchange="applyFilters()">
+        <option value="">Todos</option>
+        <option value="ouvido">✓ Já ouvi</option>
+        <option value="naoouvido">Não ouvi ainda</option>
+      </select>
+      <span class="filter-chip" id="chip-especial" onclick="toggleChip('especial',this)">★ Ed. Especial</span>
+      <span class="filter-chip" id="chip-usado" onclick="toggleChip('usado',this)">Usado</span>
+      <select class="filter-select" id="filter-genero" onchange="applyFilters()">
+        <option value="">Todos os gêneros</option>
+      </select>
+      <select class="filter-select" id="filter-dono" onchange="applyFilters()">
+        <option value="">Todos os donos</option>
+        <option value="Edu">Edu</option>
+        <option value="Pedro">Pedro</option>
+      </select>
+      <select class="filter-select" id="filter-ano" onchange="applyFilters()">
+        <option value="">Qualquer ano de compra</option>
+      </select>
+      <button class="filter-chip" id="btn-clear" onclick="clearFilters()" style="display:none;border-color:var(--red);color:var(--red);">✕ Limpar filtros</button>
+      <button class="btn-add edit-only" onclick="openAddModal('colecao')">+ Adicionar disco</button>
+    </div>
+
+    <div class="sort-bar">
+      <span class="sort-label">Ordenar por</span>
+      <select class="sort-select" id="sort-key-select" onchange="setSortKey(this.value)">
+        <option value="artista">Artista (A–Z)</option>
+        <option value="album">Álbum (A–Z)</option>
+        <option value="ano">Ano de lançamento</option>
+        <option value="compra">Ano de compra</option>
+      </select>
+      <button class="sort-dir-btn asc" id="sort-dir-btn" onclick="toggleSortDir()">Ordem</button>
+    </div>
+    <div id="results-counter" style="font-size:11px;color:var(--muted);margin-bottom:14px;"></div>
+
+    <div class="records-grid" id="records-grid"></div>
+    <table class="records-table" id="records-table" style="display:none">
+      <thead>
+        <tr>
+          <th></th>
+          <th onclick="sortTable('artista')" id="th-artista">Artista<span class="sort-icon">↕</span></th>
+          <th onclick="sortTable('album')" id="th-album">Álbum<span class="sort-icon">↕</span></th>
+          <th onclick="sortTable('ano')" id="th-ano">Ano<span class="sort-icon">↕</span></th>
+          <th onclick="sortTable('genero')" id="th-genero">Gênero<span class="sort-icon">↕</span></th>
+          <th onclick="sortTable('dono')" id="th-dono">Dono<span class="sort-icon">↕</span></th>
+          <th>Ouvi?</th>
+          <th>Obs.</th>
+        </tr>
+      </thead>
+      <tbody id="records-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- PAGE: WISHLIST -->
+  <div class="page" id="page-wishlist">
+    <div class="filter-bar">
+      <span class="filter-chip active" id="wchip-todos" onclick="setWChip('todos',this)">Todos</span>
+      <span class="filter-chip" id="wchip-edu" onclick="setWChip('Edu',this)">Edu</span>
+      <span class="filter-chip" id="wchip-pedro" onclick="setWChip('Pedro',this)">Pedro</span>
+      <select class="filter-select" id="wfilter-genero" onchange="renderWishlist()">
+        <option value="">Todos os gêneros</option>
+      </select>
+      <input type="text" class="filter-select" id="wsearch" placeholder="Buscar…" oninput="renderWishlist()" style="min-width:160px">
+      <button class="btn-add edit-only" onclick="openAddModal('wishlist')">+ Adicionar disco</button>
+    </div>
+
+    <div class="sort-bar">
+      <span class="sort-label">Ordenar por</span>
+      <select class="sort-select" id="wsort-key-select" onchange="setWishSortKey(this.value)">
+        <option value="artista">Artista (A–Z)</option>
+        <option value="album">Álbum (A–Z)</option>
+        <option value="ano">Ano de lançamento</option>
+      </select>
+      <button class="sort-dir-btn asc" id="wsort-dir-btn" onclick="toggleWishSortDir()">Ordem</button>
+    </div>
+    <table class="wish-table">
+      <thead>
+        <tr>
+          <th onclick="sortWish('artista')">Artista<span class="sort-icon">↕</span></th>
+          <th onclick="sortWish('album')">Álbum<span class="sort-icon">↕</span></th>
+          <th onclick="sortWish('ano')">Ano<span class="sort-icon">↕</span></th>
+          <th onclick="sortWish('genero')">Gênero<span class="sort-icon">↕</span></th>
+          <th onclick="sortWish('dono')">Quem quer?<span class="sort-icon">↕</span></th>
+          <th>Obs.</th>
+          <th style="width:110px"></th>
+        </tr>
+      </thead>
+      <tbody id="wish-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- PAGE: DASHBOARD -->
+  <div class="page" id="page-dashboard">
+    <div class="stat-grid" id="stat-grid"></div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Discos por colecionador</div>
+        <canvas id="chart-donos" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Compras por ano</div>
+        <canvas id="chart-anos" height="200"></canvas>
+      </div>
+      <div class="chart-card" style="grid-column:span 2;">
+        <div class="chart-title">Gêneros na coleção</div>
+        <canvas id="chart-generos" height="160"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Discos por década de lançamento</div>
+        <canvas id="chart-decadas" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Discos já ouvidos vs não ouvidos</div>
+        <canvas id="chart-ouvidos" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Evolução da coleção ao longo do tempo</div>
+        <canvas id="chart-evolucao" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Top artistas com mais discos</div>
+        <canvas id="chart-top-artistas" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" style="max-height:90vh;overflow-y:auto;">
+    <button class="modal-close" onclick="closeModalForce()">✕</button>
+    <div class="modal-cover" id="modal-cover-area" style="position:relative;">
+      <button class="modal-nav prev" onclick="navigateModal(-1)"></button>
+      <div id="modal-cover-img-wrap" style="display:none;width:100%;height:100%;position:absolute;inset:0;z-index:0;">
+        <img id="modal-cover-img" src="" alt="capa" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.5));"></div>
+      </div>
+      <div class="modal-disc" id="modal-disc" style="position:relative;z-index:1;">
+        <div class="modal-disc-label" id="modal-disc-label">
+          <div class="modal-disc-label-dot"></div>
+        </div>
+      </div>
+      <button class="modal-nav next" onclick="navigateModal(1)"></button>
+    </div>
+    <div class="modal-body">
+      <div id="modal-view-mode">
+        <div class="modal-artist" id="modal-artist"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-tags" id="modal-tags"></div>
+        <div class="modal-grid">
+          <div class="modal-field"><label>Ano de lançamento</label><span id="mf-ano"></span></div>
+          <div class="modal-field"><label>Comprado em</label><span id="mf-compra"></span></div>
+          <div class="modal-field"><label>Dono</label><span id="mf-dono"></span></div>
+          <div class="modal-field"><label>Condição</label><span id="mf-condicao"></span></div>
+          <div class="modal-field"><label>Já ouvi?</label><span id="mf-ouvido"></span></div>
+          <div class="modal-field"><label>Onde está?</label><span id="mf-onde"></span></div>
+        </div>
+        <div id="mf-obs" style="margin-top:12px;font-size:12px;color:var(--muted);font-style:italic"></div>
+        <button class="modal-edit-btn edit-only" id="edit-toggle-btn" onclick="toggleEditMode()">✎ Editar disco</button>
+      </div>
+      <div class="edit-form" id="edit-form">
+        <div class="edit-grid">
+          <div class="edit-field"><label>Artista</label><input id="ef-artista" type="text"></div>
+          <div class="edit-field"><label>Álbum</label><input id="ef-album" type="text"></div>
+          <div class="edit-field"><label>Ano de lançamento</label><input id="ef-ano" type="number" min="1900" max="2099"></div>
+          <div class="edit-field"><label>Ano de compra</label><input id="ef-compra" type="number" min="1900" max="2099"></div>
+          <div class="edit-field"><label>Gênero</label><input id="ef-genero" type="text"></div>
+          <div class="edit-field"><label>Condição</label>
+            <select id="ef-condicao"><option value="Novo">Novo</option><option value="Usado">Usado</option></select>
+          </div>
+          <div class="edit-field"><label>Dono</label>
+            <select id="ef-dono"><option value="Edu">Edu</option><option value="Pedro">Pedro</option></select>
+          </div>
+          <div class="edit-field"><label>Onde está?</label><input id="ef-onde" type="text"></div>
+          <div class="edit-field"><label>Já ouvi?</label>
+            <select id="ef-ouvido"><option value="Sim">Sim</option><option value="Não">Não</option></select>
+          </div>
+          <div class="edit-field"><label>Edição especial?</label>
+            <select id="ef-especial"><option value="Não">Não</option><option value="Sim">Sim</option></select>
+          </div>
+          <div class="edit-field full"><label>Observação</label><textarea id="ef-obs"></textarea></div>
+          <div class="edit-field full">
+            <label>URL da capa do disco</label>
+            <input id="ef-capa" type="url" placeholder="https://…" oninput="previewCapa(this.value)">
+            <div class="edit-cover-preview" id="ef-capa-preview">
+              <span class="edit-cover-placeholder" id="ef-capa-ph">Pré-visualização da capa</span>
+              <img id="ef-capa-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px;">
+            </div>
+          </div>
+        </div>
+        <div class="edit-actions">
+          <button class="btn-cancel" onclick="toggleEditMode()">Cancelar</button>
+          <button class="btn-save" onclick="saveEdit()">Salvar alterações</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════
+const colecao = [
+  {id:0,artista:"Arctic Monkeys",album:"Whatever People Say I Am, That's What I'm Not",ano:2006,compra:2025,genero:"Indie Rock",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:1,artista:"Art Blakey & The Jazz Messengers",album:"Moanin'",ano:1958,compra:2026,genero:"Jazz",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Sim",obs:"Blue Vinyl"},
+  {id:2,artista:"Between the Buried and Me",album:"Colors II",ano:2021,compra:2025,genero:"Metal Progressivo",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Sim",obs:"Capa Variante - Metalizada"},
+  {id:3,artista:"Blind Guardian",album:"Nightfall in Middle-Earth",ano:1998,compra:2025,genero:"Power Metal",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:4,artista:"Death",album:"Spiritual Healing",ano:1990,compra:2025,genero:"Death Metal",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:5,artista:"Dua Lipa",album:"Future Nostalgia",ano:2020,compra:2025,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:6,artista:"Jessie Ware",album:"What's Your Pleasure?",ano:2020,compra:2026,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:7,artista:"John Coltrane",album:"A Love Supreme",ano:1965,compra:2025,genero:"Jazz",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:8,artista:"Kanye West",album:"My Beautiful Dark Twisted Fantasy",ano:2010,compra:2024,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:"Ao Vivo"},
+  {id:9,artista:"Kanye West",album:"I Hate Being Bipolar It's Awesome (Ye)",ano:2018,compra:2025,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:10,artista:"Kendrick Lamar",album:"good kid, m.A.A.d city",ano:2012,compra:2024,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:11,artista:"Kendrick Lamar",album:"Mr. Morale & The Big Steppers",ano:2022,compra:2023,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:12,artista:"Lorde",album:"Melodrama",ano:2017,compra:2026,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:13,artista:"Madvillain",album:"Madvillainy",ano:2004,compra:2025,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:14,artista:"MF DOOM",album:"Born Like This",ano:2009,compra:2025,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:15,artista:"One Direction",album:"Four",ano:2014,compra:2025,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:16,artista:"Pink Floyd",album:"The Dark Side of the Moon",ano:1973,compra:2025,genero:"Rock Progressivo",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:17,artista:"Rick Wakeman",album:"Journey to the Centre of the Earth",ano:1974,compra:2025,genero:"Rock Progressivo",condicao:"Usado",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:"Ao Vivo"},
+  {id:18,artista:"Squid",album:"Bright Green Field",ano:2021,compra:2026,genero:"Rock Progressivo",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:19,artista:"Taylor Swift",album:"Evermore",ano:2020,compra:2025,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Sim",obs:"Transparent Green"},
+  {id:20,artista:"Taylor Swift",album:"Midnights",ano:2022,compra:2023,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:21,artista:"Taylor Swift",album:"Speak Now (Taylor's Version)",ano:2023,compra:2023,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Sim",obs:"Taylor's Version"},
+  {id:22,artista:"The Mars Volta",album:"Frances the Mute",ano:2005,compra:2026,genero:"Metal Progressivo",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:23,artista:"Tool",album:"Lateralus",ano:2001,compra:2025,genero:"Metal Progressivo",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Sim",obs:"Capa Variante"},
+  {id:24,artista:"Tyler, the Creator",album:"Goblin",ano:2011,compra:2013,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:25,artista:"Tyler, the Creator",album:"Call Me If You Get Lost",ano:2021,compra:2023,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Sim",obs:"The Estate Sale Edition"},
+  {id:26,artista:"Various Artists",album:"La La Land - Movie Soundtrack",ano:2016,compra:2023,genero:"Trilha Sonora",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:27,artista:"Various Artists",album:"Spider-Man: Into the Spider-Verse - Soundtrack",ano:2018,compra:2025,genero:"Trilha Sonora",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Sim",obs:"Sem Capa"},
+  {id:28,artista:"Wu-Tang Clan",album:"Enter the Wu-Tang (36 Chambers)",ano:1993,compra:2025,genero:"Rap/Hip-Hop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Não",especial:"Não",obs:""},
+  {id:29,artista:"Zayn",album:"Room Under the Stairs",ano:2024,compra:2025,genero:"Pop",condicao:"Novo",dono:"Edu",onde:"Casa Edu",ouvido:"Sim",especial:"Não",obs:""},
+  {id:30,artista:"Arthur Verocai",album:"Arthur Verocai",ano:1972,compra:2025,genero:"Jazz",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:31,artista:"Buena Vista Social Club",album:"Buena Vista Social Club",ano:1997,compra:2025,genero:"LATAM",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:32,artista:"Daft Punk",album:"Discovery",ano:2001,compra:2025,genero:"House",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:33,artista:"Daft Punk",album:"Random Access Memories",ano:2013,compra:2025,genero:"Disco",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Sim",obs:"10th Anniversary Edition"},
+  {id:34,artista:"Dire Straits",album:"Dire Straits",ano:1978,compra:2025,genero:"Rock Clássico",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:35,artista:"Duran Duran",album:"Rio",ano:1982,compra:2025,genero:"New Wave",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:36,artista:"Elvis Presley",album:"Elvis' 40 Greatest",ano:1974,compra:2025,genero:"Rock Clássico",condicao:"Usado",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:"Versão nacional / Acompanha um compacto"},
+  {id:37,artista:"Fleetwood Mac",album:"Rumours",ano:1977,compra:2026,genero:"Soft Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Não",especial:"Não",obs:""},
+  {id:38,artista:"Gentle Giant",album:"The Power and The Glory",ano:1974,compra:2026,genero:"Rock Progressivo",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:39,artista:"George Benson",album:"Breezin'",ano:1976,compra:2025,genero:"Jazz",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Sim",obs:"Blue/Badge Vinyl"},
+  {id:40,artista:"Isaac Hayes",album:"Hot Buttered Soul",ano:1969,compra:2025,genero:"Soul",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:41,artista:"John Coltrane",album:"My Favorite Things",ano:1961,compra:2026,genero:"Jazz",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Sim",obs:"The Blue Collection"},
+  {id:42,artista:"Johnny Cash",album:"At Folsom Prison",ano:1968,compra:2025,genero:"Country",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:"Ao Vivo"},
+  {id:43,artista:"Lynyrd Skynyrd",album:"Second Helping",ano:1974,compra:2025,genero:"Southern Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:44,artista:"Michael Jackson",album:"Off the Wall",ano:1979,compra:2025,genero:"Disco",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:45,artista:"Michael Jackson",album:"Thriller",ano:1982,compra:2025,genero:"Pop",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:46,artista:"Michael Jackson",album:"Bad",ano:1987,compra:2025,genero:"Pop",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:47,artista:"Molchat Doma",album:"Этажи (Etazhi)",ano:2018,compra:2025,genero:"Post-Punk",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Sim",obs:"Coke Bottle Clear Vinyl"},
+  {id:48,artista:"Molchat Doma",album:"Belaya Polosa",ano:2024,compra:2026,genero:"Post-Punk",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Não",especial:"Sim",obs:"Limited cloudy clear vinyl edition"},
+  {id:49,artista:"Patrice Rushen",album:"Straight From The Heart",ano:1982,compra:2025,genero:"R&B",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:50,artista:"Sade",album:"The Best of Sade",ano:1994,compra:2026,genero:"R&B",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:51,artista:"Santana",album:"Abraxas",ano:1970,compra:2026,genero:"LATAM",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:52,artista:"Steely Dan",album:"Can't Buy A Thrill",ano:1972,compra:2026,genero:"Rock Clássico",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:53,artista:"Steely Dan",album:"The Royal Scam",ano:1976,compra:2026,genero:"Jazz Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:54,artista:"Steely Dan",album:"Aja",ano:1977,compra:2026,genero:"Jazz Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:55,artista:"Tatsuro Yamashita",album:"For You",ano:1982,compra:2026,genero:"City Pop",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:56,artista:"Tears for Fears",album:"Songs from the Big Chair",ano:1985,compra:2025,genero:"New Wave",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:57,artista:"The Beatles",album:"20 Greatest Hits",ano:1982,compra:2025,genero:"Rock Clássico",condicao:"Usado",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:58,artista:"The Jackson 5",album:"Lookin' Through the Windows",ano:1972,compra:2025,genero:"Soul",condicao:"Usado",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:59,artista:"The Seatbelts",album:"Cowboy Bebop",ano:1998,compra:2026,genero:"Trilha Sonora",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Não",especial:"Sim",obs:"Exclusive Translucent Burgundy Vinyl"},
+  {id:60,artista:"Tim Maia",album:"Racional Vol.1",ano:1975,compra:2026,genero:"Soul",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Não",especial:"Não",obs:""},
+  {id:61,artista:"Toto",album:"Toto",ano:1978,compra:2026,genero:"Soft Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:62,artista:"Toto",album:"Toto IV",ano:1982,compra:2026,genero:"Soft Rock",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:63,artista:"Vince Guaraldi Trio",album:"A Charlie Brown Christmas",ano:1965,compra:2025,genero:"Trilha Sonora",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Sim",obs:"2022 Gold Foil Edition"},
+  {id:64,artista:"Weather Report",album:"Heavy Weather",ano:1977,compra:2026,genero:"Jazz Fusion",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+  {id:65,artista:"Yusef Lateef",album:"Eastern Sounds",ano:1962,compra:2026,genero:"Jazz",condicao:"Novo",dono:"Pedro",onde:"Casa Pedro",ouvido:"Sim",especial:"Não",obs:""},
+];
+
+const wishlist = [
+  {artista:"50 Cent",album:"Get Rich or Die Tryin'",ano:2003,genero:"Rap/Hip-Hop",dono:"Edu",obs:""},
+  {artista:"A Tribe Called Quest",album:"The Low End Theory",ano:1991,genero:"Rap/Hip-Hop",dono:"Edu",obs:""},
+  {artista:"AC/DC",album:"Powerage",ano:1978,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Alt-J",album:"An Awesome Wave",ano:2012,genero:"Indie Rock",dono:"Edu",obs:""},
+  {artista:"Atlus Sound Team",album:"Persona 5 OST",ano:2016,genero:"Trilha Sonora",dono:"Edu",obs:""},
+  {artista:"Atlus Sound Team",album:"Persona 3 ReLoad OST",ano:2024,genero:"Trilha Sonora",dono:"Edu",obs:""},
+  {artista:"Coheed and Cambria",album:"Good Apollo, I'm Burning Star IV",ano:2005,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Daughters",album:"You Won't Get What You Want",ano:2018,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Deftones",album:"White Pony",ano:2000,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Dua Lipa",album:"Live from The Royal Albert Hall",ano:2024,genero:"Pop",dono:"Edu",obs:""},
+  {artista:"Dua Lipa",album:"Radical Optimism",ano:2024,genero:"Pop",dono:"Edu",obs:""},
+  {artista:"Exodus",album:"Bonded By Blood",ano:1985,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Immortal",album:"Pure Holocaust",ano:1993,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Immortal",album:"At the Heart of Winter",ano:1999,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Isaac Hayes",album:"Hot Buttered Soul",ano:1969,genero:"Soul",dono:"Edu",obs:""},
+  {artista:"Jessie Ware",album:"That! Feels Good!",ano:2023,genero:"Pop",dono:"Edu",obs:""},
+  {artista:"Kreator",album:"Extreme Aggression",ano:1989,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Megadeth",album:"Killing is My Business...",ano:1985,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Meshuggah",album:"Obzen",ano:2008,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Monika Roscher Bigband",album:"Witchy Activities and the Maple Death",ano:2023,genero:"Jazz",dono:"Edu",obs:""},
+  {artista:"Olivia Rodrigo",album:"SOUR",ano:2021,genero:"Pop",dono:"Edu",obs:""},
+  {artista:"Olivia Rodrigo",album:"GUTS",ano:2023,genero:"Pop",dono:"Edu",obs:""},
+  {artista:"Opeth",album:"Blackwater Park",ano:2001,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Protest the Hero",album:"Volition",ano:2013,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Protest the Hero",album:"Palimpsest",ano:2020,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"PUP",album:"Morbid Stuff",ano:2019,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Queens of the Stone Age",album:"Songs for the Deaf",ano:2002,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Rage Against the Machine",album:"Rage Against the Machine",ano:1992,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Rise of the Northstar",album:"[Qualquer um]",ano:null,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Roger Waters",album:"This is Not a Drill: Live From Prague",ano:2023,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Slipknot",album:"Slipknot",ano:1999,genero:"Metal",dono:"Edu",obs:""},
+  {artista:"Tigers Jaw",album:"Tigers Jaw",ano:2008,genero:"Rock",dono:"Edu",obs:""},
+  {artista:"Trigg & Gusset",album:"Blue Prince OST",ano:2025,genero:"Trilha Sonora",dono:"Edu",obs:""},
+  {artista:"Anri",album:"Timely!!",ano:1983,genero:"City Pop",dono:"Pedro",obs:""},
+  {artista:"Azymuth",album:"Águia Não Come Mosca",ano:1977,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Casiopea",album:"Casiopea",ano:1979,genero:"Jazz Fusion",dono:"Pedro",obs:"Ed. especial"},
+  {artista:"Casiopea",album:"Super Flight",ano:1979,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Casiopea",album:"Mint Jams",ano:1982,genero:"Jazz Fusion",dono:"Pedro",obs:"Ao Vivo"},
+  {artista:"Casiopea",album:"Asian Dreamer",ano:1994,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Christopher Cross",album:"Christopher Cross",ano:1979,genero:"Yacht Rock",dono:"Pedro",obs:""},
+  {artista:"Cortex",album:"Troupeau bleu",ano:1975,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Cortex",album:"Cortex, Vol. 2",ano:1976,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Daft Punk",album:"Discovery (Interstella 5555 Ed.)",ano:2024,genero:"House",dono:"Pedro",obs:"Versão Japonesa"},
+  {artista:"Dire Straits",album:"Brothers in Arms",ano:1985,genero:"Rock",dono:"Pedro",obs:""},
+  {artista:"Dissidenten/Lemchaheb",album:"Sahara Elektrik",ano:1984,genero:"World Beat",dono:"Pedro",obs:""},
+  {artista:"Dizzy Gillespie",album:"Free Ride",ano:1977,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Herbie Hancock",album:"Head Hunters",ano:1973,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Himiko Kikuchi",album:"Flying Beagle",ano:1987,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Idris Muhammad",album:"Turn This Mutha Out",ano:1977,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Jamiroquai",album:"Synkronized",ano:1999,genero:"Funk",dono:"Pedro",obs:""},
+  {artista:"Jiro Inagaki",album:"Funky Stuff",ano:1975,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"John Coltrane",album:"Blue Train",ano:1957,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"John Coltrane",album:"Giant Steps",ano:1960,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Johnny Hammond",album:"Gears",ano:1975,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Lee Morgan",album:"The Sidewinder",ano:1964,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Lee Morgan",album:"Cornbread",ano:1967,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Lynyrd Skynyrd",album:"(Pronounced 'Lĕh-'nérd 'Skin-'nérd)",ano:1973,genero:"Southern Rock",dono:"Pedro",obs:""},
+  {artista:"Lynyrd Skynyrd",album:"Gimme Back My Bullets",ano:1976,genero:"Southern Rock",dono:"Pedro",obs:""},
+  {artista:"Makoto Matsushita",album:"First Light",ano:1981,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Masayoshi Takanaka",album:"Seychelles",ano:1976,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Masayoshi Takanaka",album:"An Insatiable High",ano:1977,genero:"Jazz Fusion",dono:"Pedro",obs:"Ed. especial"},
+  {artista:"Masayoshi Takanaka",album:"Brazilian Skies",ano:1978,genero:"Jazz Fusion",dono:"Pedro",obs:"Ed. especial"},
+  {artista:"Masayoshi Takanaka",album:"The Rainbow Goblins",ano:1981,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"McCoy Tyner",album:"Inner Voices",ano:1977,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Meiko Nakahara",album:"Friday Magic",ano:1982,genero:"City Pop",dono:"Pedro",obs:""},
+  {artista:"Nujabes",album:"Metaphorical Music",ano:2003,genero:"Lo-Fi",dono:"Pedro",obs:""},
+  {artista:"Nujabes",album:"Modal Soul",ano:2005,genero:"Lo-Fi",dono:"Pedro",obs:"Ed. especial"},
+  {artista:"Nujabes",album:"Luv (Sic) Hexalogy",ano:2015,genero:"Lo-Fi",dono:"Pedro",obs:""},
+  {artista:"Ryo Fukui",album:"Scenery",ano:1976,genero:"Jazz",dono:"Pedro",obs:"Ed. especial"},
+  {artista:"Shalamar",album:"Friends",ano:1982,genero:"Funk",dono:"Pedro",obs:""},
+  {artista:"T-Square",album:"Truth",ano:1987,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Takako Mamiya",album:"Love Trip",ano:1982,genero:"City Pop",dono:"Pedro",obs:""},
+  {artista:"The Dave Brubeck Quartet",album:"Time Out",ano:1959,genero:"Jazz",dono:"Pedro",obs:""},
+  {artista:"Toshiyuki Honda",album:"Ôpa! Com Deus",ano:1979,genero:"Jazz Fusion",dono:"Pedro",obs:""},
+  {artista:"Willie Colón",album:"Siembra",ano:1978,genero:"LATAM",dono:"Pedro",obs:""},
+  {artista:"Willie Colón",album:"Lo Mato",ano:1973,genero:"LATAM",dono:"Pedro",obs:""},
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let currentView  = 'grid';
+let activeChips  = new Set(); // multi-select
+let sidebarOwner = null;
+let decadaFilter = null;
+let artistaFilter = null;
+let sortKey      = 'artista';
+let sortDir      = 1;
+let wishSortKey  = 'artista';
+let wishSortDir  = 1;
+let wishOwner    = 'todos';
+let currentModalList = [];
+let currentModalIdx  = -1;
+let chartsBuilt = false;
+
+// ══════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════
+function labelClass(genero) {
+  const g = genero.toLowerCase();
+  if (g.includes('jazz fusion') || g.includes('jazz rock')) return 'lc-fusion';
+  if (g.includes('jazz')) return 'lc-jazz';
+  if (g.includes('rock clássico') || g.includes('classic')) return 'lc-classico';
+  if (g.includes('rock')) return 'lc-rock';
+  if (g.includes('pop')) return 'lc-pop';
+  if (g.includes('rap') || g.includes('hip')) return 'lc-rap';
+  if (g.includes('metal')) return 'lc-metal';
+  if (g.includes('soul') || g.includes('r&b')) return 'lc-soul';
+  if (g.includes('trilha')) return 'lc-trilha';
+  if (g.includes('latam')) return 'lc-latam';
+  if (g.includes('disco') || g.includes('house') || g.includes('funk')) return 'lc-disco';
+  if (g.includes('new wave') || g.includes('post-punk')) return 'lc-new-wave';
+  if (g.includes('city pop')) return 'lc-city-pop';
+  if (g.includes('soft rock') || g.includes('southern') || g.includes('country') || g.includes('yacht')) return 'lc-soft-rock';
+  return 'lc-classico';
+}
+
+function vinylClass(obs) {
+  const o = (obs||'').toLowerCase();
+  if (o.includes('blue') || o.includes('badge')) return 'v-blue';
+  if (o.includes('green')) return 'v-green';
+  if (o.includes('clear') || o.includes('transparent') || o.includes('translucent') || o.includes('cloudy')) return 'v-clear';
+  if (o.includes('burgundy') || o.includes('red')) return 'v-red';
+  if (o.includes('gold') || o.includes('amber') || o.includes('coke bottle')) return 'v-amber';
+  return '';
+}
+
+// ══════════════════════════════════════════
+//  FILTER & RENDER — COLLECTION
+// ══════════════════════════════════════════
+function getFiltered() {
+  const q  = document.getElementById('search-input').value.toLowerCase();
+  const g  = document.getElementById('filter-genero').value;
+  const a  = document.getElementById('filter-ano').value;
+  const d  = document.getElementById('filter-dono').value;
+  const ov = document.getElementById('filter-ouvido').value;
+  return colecao.filter(r => {
+    if (artistaFilter && r.artista !== artistaFilter) return false;
+    if (sidebarOwner && r.dono !== sidebarOwner) return false;
+    if (ov === 'ouvido'    && r.ouvido !== 'Sim') return false;
+    if (ov === 'naoouvido' && r.ouvido === 'Sim') return false;
+    if (activeChips.has('especial')  && r.especial !== 'Sim') return false;
+    if (activeChips.has('usado')     && r.condicao !== 'Usado') return false;
+    if (g && r.genero !== g) return false;
+    if (d && r.dono   !== d) return false;
+    if (a && String(r.compra) !== a) return false;
+    if (decadaFilter && (r.ano < decadaFilter.from || r.ano > decadaFilter.to)) return false;
+    if (q && !r.artista.toLowerCase().includes(q) && !r.album.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function applyFilters() {
+  const filtered = getFiltered().slice().sort((a,b) => {
+    const av = String(a[sortKey]||'').toLowerCase();
+    const bv = String(b[sortKey]||'').toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+  updateClearBtn();
+  // results counter
+  const ctr = document.getElementById('results-counter');
+  if (ctr) {
+    const total = colecao.filter(r => !sidebarOwner || r.dono === sidebarOwner).length;
+    ctr.textContent = filtered.length < total
+      ? `Exibindo ${filtered.length} de ${total} discos`
+      : `${total} disco${total!==1?'s':''} no total`;
+  }
+  if (currentView === 'grid') renderGrid(filtered);
+  else renderList(filtered);
+}
+
+// Global search — works across pages
+let currentPage = 'colecao';
+function globalSearch(val) {
+  if (currentPage === 'colecao') {
+    applyFilters();
+  } else if (currentPage === 'wishlist') {
+    document.getElementById('wsearch').value = val;
+    renderWishlist();
+  }
+}
+
+function toggleChip(val, el) {
+  if (activeChips.has(val)) { activeChips.delete(val); el.classList.remove('active'); }
+  else { activeChips.add(val); el.classList.add('active'); }
+  applyFilters();
+}
+
+function updateClearBtn() {
+  const hasFilters = activeChips.size > 0
+    || decadaFilter
+    || artistaFilter
+    || document.getElementById('filter-genero').value
+    || document.getElementById('filter-dono').value
+    || document.getElementById('filter-ano').value
+    || document.getElementById('filter-ouvido').value
+    || document.getElementById('search-input').value
+    || sidebarOwner;
+  document.getElementById('btn-clear').style.display = hasFilters ? '' : 'none';
+}
+
+function clearFilters() {
+  activeChips.clear();
+  decadaFilter = null;
+  artistaFilter = null;
+  document.querySelectorAll('#filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('filter-genero').value = '';
+  document.getElementById('filter-dono').value   = '';
+  document.getElementById('filter-ano').value    = '';
+  document.getElementById('filter-ouvido').value = '';
+  document.getElementById('search-input').value  = '';
+  sidebarOwner = null;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-colecao').classList.add('active');
+  applyFilters();
+}
+
+// Navigate from dashboard chart to collection with a filter pre-applied
+function goToColecaoWith(type, value) {
+  artistaFilter = null;
+  clearFilters();
+  if (type === 'ano')      { document.getElementById('filter-ano').value    = String(value); }
+  if (type === 'genero')   { document.getElementById('filter-genero').value = value; }
+  if (type === 'dono')     { document.getElementById('filter-dono').value   = value; }
+  if (type === 'ouvido')   { document.getElementById('filter-ouvido').value = 'ouvido'; }
+  if (type === 'naoouvido') { document.getElementById('filter-ouvido').value = 'naoouvido'; }
+  if (type === 'especial') { activeChips.add('especial'); document.getElementById('chip-especial').classList.add('active'); }
+  if (type === 'artista_nome') { artistaFilter = value; }
+  showPage('colecao');
+  applyFilters();
+}
+
+
+function goToColecaoWithDecada(base) {
+  clearFilters();
+  decadaFilter = { from: base, to: base + 9 };
+  showPage('colecao');
+  applyFilters();
+}
+
+function renderGrid(data) {
+  document.getElementById('records-grid').style.display = '';
+  document.getElementById('records-table').style.display = 'none';
+  currentModalList = data.map(r => r.id);
+
+  document.getElementById('records-grid').innerHTML = data.map((r,i) => `
+    <div class="record-card ${labelClass(r.genero)}" onclick="openModal(${r.id},${i})">
+      <div class="card-cover">
+        ${r.especial==='Sim' ? '<span class="badge-especial">★</span>' : ''}
+        ${r.ouvido==='Sim'   ? '<span class="badge-ouvido">✓</span>'  : ''}
+        ${r.capa ? `
+          <img src="${r.capa}" alt="${r.album}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.55));"></div>
+        ` : `
+          <div class="vinyl-disc ${vinylClass(r.obs)}">
+            <div class="vinyl-label"><div class="vinyl-label-dot"></div></div>
+          </div>
+        `}
+      </div>
+      <div class="card-info">
+        <div class="card-artist">${r.artista}</div>
+        <div class="card-title">${r.album}</div>
+        <div class="card-meta">
+          <span class="tag">${r.ano}</span>
+          <span class="tag">${r.genero}</span>
+        </div>
+        ${r.obs ? `<div class="card-obs">${r.obs}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function renderList(data) {
+  document.getElementById('records-grid').style.display = 'none';
+  document.getElementById('records-table').style.display = '';
+  document.getElementById('records-tbody').innerHTML = data.map(r => `
+    <tr onclick="openModal(${r.id})">
+      <td>${r.capa
+        ? `<div class="tbl-cover" style="background-image:url('${r.capa}');background-size:cover;background-position:center;border-radius:4px;"></div>`
+        : `<div class="tbl-cover"></div>`
+      }</td>
+      <td style="color:var(--accent);font-weight:500">${r.artista}</td>
+      <td style="font-family:'DM Serif Display',serif">${r.album}</td>
+      <td style="color:var(--muted)">${r.ano}</td>
+      <td><span class="tag">${r.genero}</span></td>
+      <td><span class="owner-pill"><span class="owner-dot ${r.dono.toLowerCase()}"></span>${r.dono}</span></td>
+      <td style="color:${r.ouvido==='Sim'?'var(--accent2)':'var(--muted)'}">${r.ouvido==='Sim'?'✓ Sim':'—'}</td>
+      <td style="color:var(--muted);font-style:italic;font-size:11px">${r.obs||''}</td>
+    </tr>`).join('');
+}
+
+function sortTable(key) {
+  if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
+  document.querySelectorAll('.records-table th').forEach(th => th.classList.remove('sorted'));
+  const th = document.getElementById('th-'+key);
+  if (th) th.classList.add('sorted');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════
+//  WISHLIST
+// ══════════════════════════════════════════
+function renderWishlist() {
+  const q  = (document.getElementById('wsearch').value||'').toLowerCase();
+  const g  = document.getElementById('wfilter-genero').value;
+  let data = wishlist.filter(r => {
+    if (wishOwner !== 'todos' && r.dono !== wishOwner) return false;
+    if (g && r.genero !== g) return false;
+    if (q && !r.artista.toLowerCase().includes(q) && !r.album.toLowerCase().includes(q)) return false;
+    return true;
+  }).slice().sort((a,b) => {
+    const av = String(a[wishSortKey]||'').toLowerCase();
+    const bv = String(b[wishSortKey]||'').toLowerCase();
+    return av < bv ? -wishSortDir : av > bv ? wishSortDir : 0;
+  });
+
+  const tbody = document.getElementById('wish-tbody');
+  tbody.innerHTML = data.map(r => {
+    const idx = wishlist.indexOf(r);
+    return `<tr id="wrow-${idx}">
+      <td style="color:var(--accent);font-weight:500;font-size:11px">${r.artista}</td>
+      <td style="font-family:'DM Serif Display',serif">${r.album}</td>
+      <td style="color:var(--muted)">${r.ano||'—'}</td>
+      <td><span class="tag">${r.genero}</span></td>
+      <td><span class="owner-pill"><span class="owner-dot ${r.dono.toLowerCase()}"></span>${r.dono}</span></td>
+      <td style="color:var(--muted);font-style:italic;font-size:11px">${r.obs||''}</td>
+      <td style="white-space:nowrap;display:flex;gap:5px;" class="edit-only">
+        <button class="wish-action-btn" onclick="wishAcquire(${idx})" style="color:var(--accent2);border-color:var(--accent2);" title="Adquiri!">✓</button>
+        <button class="wish-action-btn" onclick="wishEdit(${idx})">✎</button>
+        <button class="wish-action-btn del" onclick="wishDelete(${idx})">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+  // apply read/edit mode to newly rendered rows
+  if (typeof applyEditMode === 'function') applyEditMode();
+}
+
+function wishEdit(idx) {
+  if (!requireEditGuard()) return;
+  const r = wishlist[idx];
+  if (!r) return;
+  const row = document.getElementById(`wrow-${idx}`);
+  if (!row) return;
+  row.classList.add('wish-editing');
+  row.innerHTML = `
+    <td><input class="wish-inline-input" id="we-artista-${idx}" value="${r.artista}"></td>
+    <td><input class="wish-inline-input" id="we-album-${idx}"   value="${r.album}"></td>
+    <td><input class="wish-inline-input" id="we-ano-${idx}"     value="${r.ano||''}" style="width:64px" type="number"></td>
+    <td><input class="wish-inline-input" id="we-genero-${idx}"  value="${r.genero}"></td>
+    <td>
+      <select class="wish-inline-select" id="we-dono-${idx}">
+        <option value="Edu"   ${r.dono==='Edu'   ?'selected':''}>Edu</option>
+        <option value="Pedro" ${r.dono==='Pedro' ?'selected':''}>Pedro</option>
+      </select>
+    </td>
+    <td><input class="wish-inline-input" id="we-obs-${idx}" value="${r.obs||''}"></td>
+    <td style="white-space:nowrap;display:flex;gap:5px;">
+      <button class="wish-action-btn save" onclick="wishSave(${idx})">✓</button>
+      <button class="wish-action-btn"      onclick="renderWishlist()">✕</button>
+    </td>`;
+  document.getElementById(`we-artista-${idx}`).focus();
+}
+
+function wishSave(idx) {
+  const r = wishlist[idx];
+  if (!r) return;
+  r.artista = document.getElementById(`we-artista-${idx}`).value.trim() || r.artista;
+  r.album   = document.getElementById(`we-album-${idx}`).value.trim()   || r.album;
+  r.ano     = parseInt(document.getElementById(`we-ano-${idx}`).value)   || null;
+  r.genero  = document.getElementById(`we-genero-${idx}`).value.trim()  || r.genero;
+  r.dono    = document.getElementById(`we-dono-${idx}`).value;
+  r.obs     = document.getElementById(`we-obs-${idx}`).value.trim();
+  refreshWishDropdowns();
+  renderWishlist();
+  updateSidebarStats();
+  saveToStorage();
+  showToast('✓ Item atualizado!');
+}
+
+function wishDelete(idx) {
+  if (!requireEditGuard()) return;
+  if (!confirm(`Remover "${wishlist[idx].album}" da wishlist?`)) return;
+  wishlist.splice(idx, 1);
+  refreshWishDropdowns();
+  renderWishlist();
+  updateSidebarStats();
+  saveToStorage();
+  showToast('Item removido da wishlist.', 'error');
+}
+
+function sortWish(key) {
+  if (wishSortKey === key) wishSortDir *= -1; else { wishSortKey = key; wishSortDir = 1; }
+  renderWishlist();
+}
+
+function setWChip(val, el) {
+  wishOwner = val;
+  document.querySelectorAll('[id^="wchip-"]').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderWishlist();
+}
+
+// ══════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════
+function openModal(id, listIdx) {
+  if (listIdx !== undefined) currentModalIdx = listIdx;
+  else currentModalIdx = currentModalList.indexOf(id);
+  if (currentModalIdx < 0) currentModalIdx = 0;
+  _showModal(id);
+}
+
+function _showModal(id) {
+  const r = colecao.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('modal-artist').textContent = r.artista;
+  document.getElementById('modal-title').textContent  = r.album;
+  document.getElementById('mf-ano').textContent       = r.ano;
+  document.getElementById('mf-compra').textContent    = r.compra;
+  document.getElementById('mf-dono').textContent      = r.dono;
+  document.getElementById('mf-condicao').textContent  = r.condicao;
+  document.getElementById('mf-ouvido').textContent    = r.ouvido;
+  document.getElementById('mf-onde').textContent      = r.onde;
+  document.getElementById('mf-obs').textContent       = r.obs || '';
+
+  // cover image
+  const imgWrap = document.getElementById('modal-cover-img-wrap');
+  const img     = document.getElementById('modal-cover-img');
+  const disc    = document.getElementById('modal-disc');
+  if (r.capa) {
+    img.src = r.capa;
+    imgWrap.style.display = 'block';
+    disc.style.opacity = '0.35';
+  } else {
+    imgWrap.style.display = 'none';
+    disc.style.opacity = '1';
+  }
+
+  disc.className = 'modal-disc ' + vinylClass(r.obs);
+
+  const lbl = document.getElementById('modal-disc-label');
+  lbl.className = 'modal-disc-label';
+  const lc = labelClass(r.genero);
+  const labelColors = {
+    'lc-jazz':'#d4a84a','lc-rock':'#6a9ab8','lc-pop':'#c87ab0','lc-rap':'#7ab878',
+    'lc-metal':'#8a8a8a','lc-soul':'#c87a4a','lc-trilha':'#9a7ac8','lc-classico':'#c8b478',
+    'lc-latam':'#c84a4a','lc-disco':'#4ac8c8','lc-new-wave':'#7a78c8','lc-city-pop':'#c8784a',
+    'lc-soft-rock':'#78c896','lc-fusion':'#a8c870'
+  };
+  lbl.style.background = labelColors[lc] || '#888';
+
+  const tags = document.getElementById('modal-tags');
+  tags.innerHTML = `<span class="modal-tag">${r.genero}</span>` +
+    (r.especial==='Sim' ? '<span class="modal-tag highlight">★ Edição especial</span>' : '') +
+    `<span class="modal-tag">${r.ouvido==='Sim'?'✓ Já ouvi':'Não ouvi ainda'}</span>`;
+
+  // reset edit form
+  document.getElementById('edit-form').classList.remove('open');
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+let editingId = null;
+
+function toggleEditMode() {
+  const form = document.getElementById('edit-form');
+  const isOpen = form.classList.contains('open');
+  if (isOpen) { form.classList.remove('open'); return; }
+
+  const r = colecao.find(x => x.id === currentModalList[currentModalIdx]);
+  if (!r) return;
+  editingId = r.id;
+
+  document.getElementById('ef-artista').value  = r.artista;
+  document.getElementById('ef-album').value    = r.album;
+  document.getElementById('ef-ano').value      = r.ano;
+  document.getElementById('ef-compra').value   = r.compra;
+  document.getElementById('ef-genero').value   = r.genero;
+  document.getElementById('ef-condicao').value = r.condicao;
+  document.getElementById('ef-dono').value     = r.dono;
+  document.getElementById('ef-onde').value     = r.onde;
+  document.getElementById('ef-ouvido').value   = r.ouvido;
+  document.getElementById('ef-especial').value = r.especial;
+  document.getElementById('ef-obs').value      = r.obs || '';
+  document.getElementById('ef-capa').value     = r.capa || '';
+  previewCapa(r.capa || '');
+
+  form.classList.add('open');
+  form.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function previewCapa(url) {
+  const ph  = document.getElementById('ef-capa-ph');
+  const img = document.getElementById('ef-capa-img');
+  if (url && url.startsWith('http')) {
+    img.src = url;
+    img.style.display = 'block';
+    ph.style.display  = 'none';
+  } else {
+    img.style.display = 'none';
+    ph.style.display  = 'block';
+  }
+}
+
+function saveEdit() {
+  if (!requireEditGuard()) return;
+  const r = colecao.find(x => x.id === editingId);
+  if (!r) return;
+
+  r.artista  = document.getElementById('ef-artista').value.trim()  || r.artista;
+  r.album    = document.getElementById('ef-album').value.trim()    || r.album;
+  r.ano      = parseInt(document.getElementById('ef-ano').value)   || r.ano;
+  r.compra   = parseInt(document.getElementById('ef-compra').value)|| r.compra;
+  r.genero   = document.getElementById('ef-genero').value.trim()   || r.genero;
+  r.condicao = document.getElementById('ef-condicao').value;
+  r.dono     = document.getElementById('ef-dono').value;
+  r.onde     = document.getElementById('ef-onde').value.trim();
+  r.ouvido   = document.getElementById('ef-ouvido').value;
+  r.especial = document.getElementById('ef-especial').value;
+  r.obs      = document.getElementById('ef-obs').value.trim();
+  r.capa     = document.getElementById('ef-capa').value.trim();
+
+  document.getElementById('edit-form').classList.remove('open');
+  _showModal(r.id);
+  applyFilters();
+  updateSidebarStats();
+  saveToStorage();
+  showToast('✓ Alterações salvas!');
+}
+
+function updateSidebarStats() {
+  const ouvidos = colecao.filter(r=>r.ouvido==='Sim').length;
+  document.getElementById('sidebar-stats').innerHTML = `
+    <strong>${colecao.length}</strong> discos no total<br>
+    <strong>${colecao.filter(r=>r.dono==='Edu').length}</strong> do Edu ·
+    <strong>${colecao.filter(r=>r.dono==='Pedro').length}</strong> do Pedro<br>
+    <strong>${ouvidos}</strong> já ouvidos
+    <span style="color:var(--accent2)">(${Math.round(ouvidos/colecao.length*100)}%)</span><br>
+    <strong>${colecao.filter(r=>r.especial==='Sim').length}</strong> edições especiais<br>
+    <strong style="color:var(--muted)">${wishlist.length}</strong> na wishlist
+  `;
+}
+
+function navigateModal(dir) {
+  const ni = currentModalIdx + dir;
+  if (ni < 0 || ni >= currentModalList.length) return;
+  currentModalIdx = ni;
+  _showModal(currentModalList[ni]);
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalForce();
+}
+function closeModalForce() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modal-overlay').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  navigateModal(-1);
+  if (e.key === 'ArrowRight') navigateModal(1);
+  if (e.key === 'Escape')     closeModalForce();
+});
+
+// ══════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════
+let chartInstances = {};
+
+function buildDashboard() {
+  const total    = colecao.length;
+  const ouvidos  = colecao.filter(r => r.ouvido==='Sim').length;
+  const especiais= colecao.filter(r => r.especial==='Sim').length;
+
+  // Stat cards — clickable
+  const statDefs = [
+    {n:total,    l:'Discos na coleção', c:'var(--accent)',  type:'page',     val:'colecao'},
+    {n:wishlist.length, l:'Na wishlist', c:'var(--accent2)',type:'page',     val:'wishlist'},
+    {n:ouvidos,  l:'Já ouvidos',        c:'var(--green)',  type:'ouvido',   val:'Sim'},
+    {n:especiais,l:'Edições especiais', c:'var(--gold)',   type:'especial', val:'Sim'},
+    {n:colecao.filter(r=>r.dono==='Edu').length,   l:'Discos do Edu',   c:'var(--accent)',  type:'dono', val:'Edu'},
+    {n:colecao.filter(r=>r.dono==='Pedro').length, l:'Discos do Pedro', c:'var(--accent2)', type:'dono', val:'Pedro'},
+  ];
+  const grid = document.getElementById('stat-grid');
+  grid.innerHTML = statDefs.map((s,i) =>
+    `<div class="stat-card" data-si="${i}" style="cursor:pointer;transition:border-color .15s;">
+      <span class="stat-num" style="color:${s.c}">${s.n}</span>
+      <div class="stat-label">${s.l}</div>
+    </div>`).join('');
+  grid.querySelectorAll('.stat-card').forEach((el, i) => {
+    const s = statDefs[i];
+    el.addEventListener('mouseenter', () => el.style.borderColor = 'var(--accent)');
+    el.addEventListener('mouseleave', () => el.style.borderColor = '');
+    el.addEventListener('click', () => {
+      if (s.type === 'page') showPage(s.val);
+      else goToColecaoWith(s.type, s.val);
+    });
+  });
+
+  if (chartsBuilt) return;
+  chartsBuilt = true;
+
+  const amber = '#e8913a', teal = '#3ecfb2', muted = '#7a7168';
+  const gridC = 'rgba(50,45,38,.6)';
+  Chart.defaults.color = muted;
+  Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+
+  // shared tooltip callback: just show the value
+  const tip = (getVal) => ({ plugins:{ tooltip:{ callbacks:{ label: ctx => getVal(ctx) } } } });
+
+  // ── Donos ──
+  new Chart(document.getElementById('chart-donos'), {
+    type:'doughnut',
+    data:{ labels:['Edu','Pedro'],
+      datasets:[{data:[colecao.filter(r=>r.dono==='Edu').length, colecao.filter(r=>r.dono==='Pedro').length],
+        backgroundColor:[amber,teal], borderWidth:0, hoverOffset:6}]},
+    options:{
+      cutout:'68%',
+      plugins:{ legend:{position:'bottom'}, tooltip:{callbacks:{label: ctx => `${ctx.label}: ${ctx.parsed}`}} },
+      onClick(_,els){ if(els[0]) goToColecaoWith('dono',['Edu','Pedro'][els[0].index]); }
+    }
+  });
+
+  // ── Compras por ano ──
+  const anosCounts = {};
+  colecao.forEach(r => { anosCounts[r.compra] = (anosCounts[r.compra]||0)+1; });
+  const anosLabels = Object.keys(anosCounts).sort();
+  new Chart(document.getElementById('chart-anos'), {
+    type:'bar',
+    data:{ labels:anosLabels,
+      datasets:[{data:anosLabels.map(a=>anosCounts[a]),
+        backgroundColor:amber, hoverBackgroundColor:teal, borderRadius:5, borderSkipped:false}]},
+    options:{
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.y}} },
+      scales:{ y:{grid:{color:gridC}}, x:{grid:{display:false}} },
+      onClick(_,els){ if(els[0]) goToColecaoWith('ano', anosLabels[els[0].index]); }
+    }
+  });
+
+  // ── Gêneros ──
+  const genCounts = {};
+  colecao.forEach(r => { genCounts[r.genero] = (genCounts[r.genero]||0)+1; });
+  const sorted  = Object.entries(genCounts).sort((a,b)=>b[1]-a[1]);
+  const palette = [amber,teal,'#d4523a','#f0c040','#5a9fd4','#5ecf7a','#c87ab0','#7ab878','#6a9ab8','#c84a4a','#a8c870','#7a78c8','#c8784a','#78c896','#c8b478','#4ac8c8','#9a7ac8'];
+  new Chart(document.getElementById('chart-generos'), {
+    type:'bar',
+    data:{ labels:sorted.map(x=>x[0]),
+      datasets:[{data:sorted.map(x=>x[1]),
+        backgroundColor:palette, hoverBackgroundColor:'rgba(255,255,255,.2)',
+        borderRadius:4, borderSkipped:false}]},
+    options:{
+      indexAxis:'y',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.x}} },
+      scales:{ x:{grid:{color:gridC}, ticks:{stepSize:1}}, y:{grid:{display:false}} },
+      onClick(_,els){ if(els[0]) goToColecaoWith('genero', sorted[els[0].index][0]); }
+    }
+  });
+
+  // ── Décadas ──
+  const dec = {'1950–59':0,'1960–69':0,'1970–79':0,'1980–89':0,'1990–99':0,'2000–09':0,'2010–19':0,'2020–29':0};
+  colecao.forEach(r => {
+    const d = Math.floor(r.ano/10)*10;
+    const k = `${d}–${String(d+9).slice(-2)}`;
+    if (dec[k]!==undefined) dec[k]++;
+  });
+  const decLabels = Object.keys(dec);
+  new Chart(document.getElementById('chart-decadas'), {
+    type:'bar',
+    data:{ labels:decLabels,
+      datasets:[{data:Object.values(dec),
+        backgroundColor:teal, hoverBackgroundColor:amber, borderRadius:4, borderSkipped:false}]},
+    options:{
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.parsed.y}} },
+      scales:{ y:{grid:{color:gridC}}, x:{grid:{display:false}} },
+      onClick(_,els){
+        if(!els[0]) return;
+        const base = parseInt(decLabels[els[0].index]);
+        goToColecaoWithDecada(base);
+      }
+    }
+  });
+
+  // ── Ouvidos ──
+  new Chart(document.getElementById('chart-ouvidos'), {
+    type:'doughnut',
+    data:{ labels:['Já ouvi','Ainda não'],
+      datasets:[{data:[ouvidos, total-ouvidos],
+        backgroundColor:[teal,'rgba(50,45,38,.8)'], hoverOffset:6, borderWidth:0}]},
+    options:{
+      cutout:'68%',
+      plugins:{ legend:{position:'bottom'}, tooltip:{callbacks:{label: ctx => `${ctx.label}: ${ctx.parsed}`}} },
+      onClick(_,els){ if(els[0]) { els[0].index===0 ? goToColecaoWith('ouvido','Sim') : goToColecaoWith('naoouvido',''); } }
+    }
+  });
+
+  ['chart-donos','chart-anos','chart-generos','chart-decadas','chart-ouvidos']
+    .forEach(id => document.getElementById(id).style.cursor = 'pointer');
+
+  // ── Evolução da coleção ──
+  const byYear = {};
+  colecao.slice().sort((a,b)=>a.compra-b.compra).forEach(r => {
+    byYear[r.compra] = (byYear[r.compra]||0) + 1;
+  });
+  const evoYears = Object.keys(byYear).sort();
+  let cumulative = 0;
+  const evoData = evoYears.map(y => { cumulative += byYear[y]; return cumulative; });
+  new Chart(document.getElementById('chart-evolucao'), {
+    type: 'line',
+    data: {
+      labels: evoYears,
+      datasets: [{
+        data: evoData,
+        borderColor: amber,
+        backgroundColor: 'rgba(232,145,58,.15)',
+        fill: true, tension: 0.35,
+        pointBackgroundColor: amber, pointRadius: 5, pointHoverRadius: 7,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' discos no total' } } },
+      scales: { y: { grid: { color: gridC }, beginAtZero: true }, x: { grid: { display: false } } }
+    }
+  });
+
+  // ── Top artistas ──
+  const artistCount = {};
+  colecao.forEach(r => { artistCount[r.artista] = (artistCount[r.artista]||0)+1; });
+  const topArtistas = Object.entries(artistCount).filter(x=>x[1]>1).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  new Chart(document.getElementById('chart-top-artistas'), {
+    type: 'bar',
+    data: {
+      labels: topArtistas.map(x=>x[0]),
+      datasets: [{ data: topArtistas.map(x=>x[1]),
+        backgroundColor: amber, hoverBackgroundColor: teal,
+        borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.x + ' discos' } } },
+      scales: {
+        x: { grid: { color: gridC }, ticks: { stepSize: 1 } },
+        y: { grid: { display: false } }
+      },
+      onClick(_, els) { if(els[0]) goToColecaoWith('artista_nome', topArtistas[els[0].index][0]); }
+    }
+  });
+  document.getElementById('chart-top-artistas').style.cursor = 'pointer';
+}
+
+// ══════════════════════════════════════════
+//  NAV & UI
+// ══════════════════════════════════════════
+function showPage(id) {
+  currentPage = id;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const nav = document.getElementById('nav-'+id);
+  if (nav) nav.classList.add('active');
+  const titles = {colecao:'Coleção',wishlist:'Wishlist',dashboard:'Dashboard'};
+  document.getElementById('topbar-title').textContent = titles[id]||'';
+  // show/hide view toggle and search placeholder
+  const vt = document.getElementById('view-toggle-btns');
+  if (vt) vt.style.display = id==='colecao' ? '' : 'none';
+  const si = document.getElementById('search-input');
+  if (si) si.placeholder = id==='wishlist' ? 'Buscar na wishlist…' : id==='colecao' ? 'Buscar na coleção…' : '';
+  if (id==='dashboard') buildDashboard();
+  if (id==='wishlist')  renderWishlist();
+  if (id==='colecao')   applyFilters();
+  if (window.innerWidth<=768) closeSidebar();
+}
+
+function filterSidebar(owner, navId) {
+  sidebarOwner = sidebarOwner===owner ? null : owner;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (sidebarOwner) {
+    document.getElementById(navId).classList.add('active');
+    showPage('colecao');
+    document.getElementById('nav-colecao').classList.remove('active');
+  } else {
+    document.getElementById('nav-colecao').classList.add('active');
+    showPage('colecao');
+  }
+  applyFilters();
+}
+
+function setChip(val, el) {
+  activeChip = val;
+  document.querySelectorAll('#filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('vbtn-grid').classList.toggle('active', v==='grid');
+  document.getElementById('vbtn-list').classList.toggle('active', v==='list');
+  applyFilters();
+}
+
+function toggleLight() {
+  document.body.classList.toggle('light-mode');
+}
+
+function openSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('open'); }
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+async function init() {
+  // Auth check
+  if (sessionStorage.getItem('vinil_auth') === '1') {
+    isEditMode = true;
+  }
+  // Load data from GitHub (falls back to localStorage)
+  await loadFromGitHub();
+  // Populate genre dropdowns
+  const genres  = [...new Set(colecao.map(r=>r.genero))].sort();
+  const wgenres = [...new Set(wishlist.map(r=>r.genero))].sort();
+  const anos    = [...new Set(colecao.map(r=>r.compra))].sort();
+
+  const fg = document.getElementById('filter-genero');
+  genres.forEach(g => { const o=document.createElement('option'); o.value=o.textContent=g; fg.appendChild(o); });
+
+  const fa = document.getElementById('filter-ano');
+  anos.forEach(a => { const o=document.createElement('option'); o.value=o.textContent=a; fa.appendChild(o); });
+
+  const wg = document.getElementById('wfilter-genero');
+  wgenres.forEach(g => { const o=document.createElement('option'); o.value=o.textContent=g; wg.appendChild(o); });
+
+  // Sidebar stats
+  const ouvidos = colecao.filter(r=>r.ouvido==='Sim').length;
+  document.getElementById('sidebar-stats').innerHTML = `
+    <strong>${colecao.length}</strong> discos no total<br>
+    <strong>${colecao.filter(r=>r.dono==='Edu').length}</strong> do Edu ·
+    <strong>${colecao.filter(r=>r.dono==='Pedro').length}</strong> do Pedro<br>
+    <strong>${ouvidos}</strong> já ouvidos
+    <span style="color:var(--accent2)">(${Math.round(ouvidos/colecao.length*100)}%)</span><br>
+    <strong>${colecao.filter(r=>r.especial==='Sim').length}</strong> edições especiais<br>
+    <strong style="color:var(--muted)">${wishlist.length}</strong> na wishlist
+  `;
+
+  applyFilters();
+  renderWishlist();
+}
+
+// ══════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════
+let _toastTimer;
+function showToast(msg, type='success') {
+  let t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id='toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { t.className = type; }, 2200);
+}
+
+// ══════════════════════════════════════════
+//  WISHLIST — ACQUIRE (move to collection)
+// ══════════════════════════════════════════
+function wishAcquire(idx) {
+  if (!requireEditGuard()) return;
+  const r = wishlist[idx];
+  if (!r) return;
+  openAddModal('colecao');
+  setTimeout(() => {
+    document.getElementById('af-artista').value = r.artista;
+    document.getElementById('af-album').value   = r.album;
+    document.getElementById('af-ano').value     = r.ano || '';
+    document.getElementById('af-genero').value  = r.genero;
+    document.getElementById('af-dono').value    = r.dono;
+    document.getElementById('af-obs').value     = r.obs || '';
+    // store wish idx to remove after save
+    document.getElementById('af-save-btn').dataset.wishIdx = idx;
+  }, 50);
+}
+
+// patch saveNewDisc to also remove from wishlist if coming from acquire
+const _origSaveNewDisc = saveNewDisc;
+function saveNewDisc() {
+  const btn = document.getElementById('af-save-btn');
+  const wishIdx = btn.dataset.wishIdx !== undefined ? parseInt(btn.dataset.wishIdx) : -1;
+  _origSaveNewDisc();
+  if (wishIdx >= 0 && !document.getElementById('add-modal-overlay').classList.contains('open')) {
+    // modal closed = save succeeded
+    wishlist.splice(wishIdx, 1);
+    refreshWishDropdowns();
+    renderWishlist();
+    updateSidebarStats();
+    delete btn.dataset.wishIdx;
+    showToast('✓ Disco adicionado à coleção e removido da wishlist!');
+  }
+}
+
+// ══════════════════════════════════════════
+//  EXPORT / IMPORT JSON
+// ══════════════════════════════════════════
+function exportData() {
+  const payload = JSON.stringify({ colecao, wishlist }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'colecao-vinil.json'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ Exportado com sucesso!');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.colecao || !data.wishlist) throw new Error('Formato inválido');
+      // merge: add items not already in collection (by artista+album)
+      const existingKeys = new Set(colecao.map(r => r.artista+'|'+r.album));
+      let added = 0;
+      data.colecao.forEach(r => {
+        const k = r.artista+'|'+r.album;
+        if (!existingKeys.has(k)) {
+          r.id = colecao.length > 0 ? Math.max(...colecao.map(x=>x.id))+1 : 0;
+          colecao.push(r); existingKeys.add(k); added++;
+        }
+      });
+      const wKeys = new Set(wishlist.map(r => r.artista+'|'+r.album));
+      data.wishlist.forEach(r => {
+        if (!wKeys.has(r.artista+'|'+r.album)) { wishlist.push(r); wKeys.add(r.artista+'|'+r.album); }
+      });
+      refreshDropdowns(); refreshWishDropdowns();
+      applyFilters(); renderWishlist(); updateSidebarStats();
+      showToast(`✓ Importado! ${added} disco(s) novo(s) adicionado(s).`);
+    } catch(err) {
+      showToast('✗ Erro ao importar: ' + err.message, 'error');
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ══════════════════════════════════════════
+//  GITHUB SYNC
+// ══════════════════════════════════════════
+function showSyncStatus(msg, color) {
+  const el = document.getElementById('sync-status');
+  if (el) { el.textContent = msg; el.style.color = color || 'var(--muted)'; }
+}
+
+async function loadFromGitHub() {
+  showSyncStatus('⏳ Carregando...', 'var(--muted)');
+  try {
+    const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
+      headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const file = await res.json();
+    githubFileSha = file.sha;
+    const data = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/
+/g,'')))));
+    if (data.colecao) { colecao.length = 0; data.colecao.forEach(r => colecao.push(r)); }
+    if (data.wishlist) { wishlist.length = 0; data.wishlist.forEach(r => wishlist.push(r)); }
+    showSyncStatus('✅ Sincronizado', 'var(--accent2)');
+    setTimeout(() => showSyncStatus(''), 3000);
+  } catch(e) {
+    showSyncStatus('⚠️ Offline — dados locais', 'var(--gold)');
+    loadFromLocalStorage();
+  }
+}
+
+async function saveToGitHub() {
+  if (isSyncing) return;
+  if (!githubFileSha) { saveToLocalStorage(); showSyncStatus('⚠️ Salvo local (sem conexão)', 'var(--gold)'); return; }
+  isSyncing = true;
+  showSyncStatus('💾 Salvando...', 'var(--accent)');
+  try {
+    const data = { colecao, wishlist, last_updated: new Date().toISOString() };
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Update — ' + new Date().toLocaleString('pt-BR'), content, sha: githubFileSha })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const result = await res.json();
+    githubFileSha = result.content.sha;
+    saveToLocalStorage();
+    showSyncStatus('✅ Salvo', 'var(--accent2)');
+    setTimeout(() => showSyncStatus(''), 3000);
+  } catch(e) {
+    saveToLocalStorage();
+    showSyncStatus('⚠️ Salvo local', 'var(--gold)');
+  }
+  isSyncing = false;
+}
+
+function saveToStorage() {
+  saveToLocalStorage();
+  if (saveTimeout) clearTimeout(saveTimeout);
+  showSyncStatus('...editando', 'var(--muted)');
+  saveTimeout = setTimeout(saveToGitHub, 2000);
+}
+
+function saveToLocalStorage() {
+  try {
+    localStorage.setItem('vinil-colecao',  JSON.stringify(colecao));
+    localStorage.setItem('vinil-wishlist', JSON.stringify(wishlist));
+  } catch(e) {}
+}
+
+function loadFromLocalStorage() {
+  try {
+    const sc = localStorage.getItem('vinil-colecao');
+    const sw = localStorage.getItem('vinil-wishlist');
+    if (sc) { const d = JSON.parse(sc); colecao.length  = 0; d.forEach(r => colecao.push(r)); }
+    if (sw) { const d = JSON.parse(sw); wishlist.length = 0; d.forEach(r => wishlist.push(r)); }
+  } catch(e) {}
+}
+
+function loadFromStorage() { /* compatibility shim — loads local then kicks off GitHub */ loadFromLocalStorage(); }
+
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
+function tryPassword() {
+  const pwd = document.getElementById('access-password').value;
+  if (pwd === SITE_PASSWORD) {
+    isEditMode = true;
+    document.getElementById('access-modal').remove();
+    sessionStorage.setItem('vinil_auth', '1');
+    applyEditMode();
+  } else {
+    const err = document.getElementById('access-error');
+    err.style.display = 'block';
+    document.getElementById('access-password').value = '';
+    document.getElementById('access-password').focus();
+  }
+}
+
+function enterReadOnly() {
+  isEditMode = false;
+  document.getElementById('access-modal').remove();
+  applyEditMode();
+}
+
+function applyEditMode() {
+  document.querySelectorAll('.edit-only').forEach(el => {
+    el.style.display = isEditMode ? '' : 'none';
+  });
+  const ind = document.getElementById('edit-indicator');
+  if (ind) {
+    ind.textContent = isEditMode ? '✏️ Modo Edição' : '👁️ Modo Leitura';
+    ind.style.color  = isEditMode ? 'var(--accent2)' : 'var(--muted)';
+  }
+}
+
+function requireEditGuard() {
+  if (!isEditMode) { showToast('⚠️ Entre com a senha de edição para fazer alterações.', 'error'); return false; }
+  return true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  // Password modal
+  const pwdInput = document.getElementById('access-password');
+  if (pwdInput) {
+    pwdInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPassword(); });
+    setTimeout(() => pwdInput.focus(), 200);
+  }
+  // If already authed, remove modal and apply
+  if (sessionStorage.getItem('vinil_auth') === '1') {
+    const modal = document.getElementById('access-modal');
+    if (modal) modal.remove();
+    applyEditMode();
+  }
+});
+
+// ══════════════════════════════════════════
+//  SORT CONTROLS — COLLECTION
+// ══════════════════════════════════════════
+function setSortKey(key) {
+  sortKey = key;
+  applyFilters();
+}
+
+function toggleSortDir() {
+  sortDir *= -1;
+  const btn = document.getElementById('sort-dir-btn');
+  btn.className = 'sort-dir-btn ' + (sortDir === 1 ? 'asc' : 'desc');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════
+//  SORT CONTROLS — WISHLIST
+// ══════════════════════════════════════════
+function setWishSortKey(key) {
+  wishSortKey = key;
+  renderWishlist();
+}
+
+function toggleWishSortDir() {
+  wishSortDir *= -1;
+  const btn = document.getElementById('wsort-dir-btn');
+  btn.className = 'sort-dir-btn ' + (wishSortDir === 1 ? 'asc' : 'desc');
+  renderWishlist();
+}
+
+// ══════════════════════════════════════════
+//  ADD MODAL
+// ══════════════════════════════════════════
+let addModalTarget = 'colecao';
+
+function openAddModal(target) {
+  if (!requireEditGuard()) return;
+  addModalTarget = target;
+  const isWish = target === 'wishlist';
+  document.getElementById('add-modal-title').textContent = isWish ? 'Adicionar à Wishlist' : 'Adicionar disco à Coleção';
+
+  ['af-compra-field','af-condicao-field','af-dono-field','af-onde-field','af-ouvido-field','af-especial-field','af-capa-field']
+    .forEach(id => document.getElementById(id).style.display = isWish ? 'none' : '');
+  document.getElementById('af-wishwho-field').style.display = isWish ? '' : 'none';
+
+  ['af-artista','af-album','af-genero','af-obs','af-capa'].forEach(id => document.getElementById(id).value = '');
+  ['af-ano','af-compra'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('af-condicao').value = 'Novo';
+  document.getElementById('af-dono').value     = 'Edu';
+  document.getElementById('af-onde').value     = '';
+  document.getElementById('af-ouvido').value   = 'Não';
+  document.getElementById('af-especial').value = 'Não';
+  document.getElementById('af-wishwho').value  = 'Edu';
+  previewAddCapa('');
+
+  document.getElementById('add-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('af-artista').focus(), 100);
+}
+
+function closeAddModal(e) {
+  if (e.target === document.getElementById('add-modal-overlay')) closeAddModalForce();
+}
+function closeAddModalForce() {
+  document.getElementById('add-modal-overlay').classList.remove('open');
+}
+
+function previewAddCapa(url) {
+  const ph  = document.getElementById('af-capa-ph');
+  const img = document.getElementById('af-capa-img');
+  if (url && url.startsWith('http')) {
+    img.src = url; img.style.display = 'block'; ph.style.display = 'none';
+  } else {
+    img.style.display = 'none'; ph.style.display = 'block';
+  }
+}
+
+function saveNewDisc() {
+  const artista = document.getElementById('af-artista').value.trim();
+  const album   = document.getElementById('af-album').value.trim();
+  if (!artista || !album) {
+    document.getElementById(artista ? 'af-album' : 'af-artista').style.borderColor = 'var(--red)';
+    setTimeout(() => ['af-artista','af-album'].forEach(id => document.getElementById(id).style.borderColor = ''), 1500);
+    return;
+  }
+
+  if (addModalTarget === 'colecao') {
+    const newId = colecao.length > 0 ? Math.max(...colecao.map(r=>r.id)) + 1 : 0;
+    colecao.push({
+      id:       newId,
+      artista,  album,
+      ano:      parseInt(document.getElementById('af-ano').value)    || new Date().getFullYear(),
+      compra:   parseInt(document.getElementById('af-compra').value) || new Date().getFullYear(),
+      genero:   document.getElementById('af-genero').value.trim()   || 'Outro',
+      condicao: document.getElementById('af-condicao').value,
+      dono:     document.getElementById('af-dono').value,
+      onde:     document.getElementById('af-onde').value.trim()     || ('Casa ' + document.getElementById('af-dono').value),
+      ouvido:   document.getElementById('af-ouvido').value,
+      especial: document.getElementById('af-especial').value,
+      obs:      document.getElementById('af-obs').value.trim(),
+      capa:     document.getElementById('af-capa').value.trim(),
+    });
+    closeAddModalForce();
+    refreshDropdowns();
+    applyFilters();
+    updateSidebarStats();
+    saveToStorage();
+    showToast('✓ Disco adicionado à coleção!');
+  } else {
+    wishlist.push({
+      artista, album,
+      ano:    parseInt(document.getElementById('af-ano').value) || null,
+      genero: document.getElementById('af-genero').value.trim() || 'Outro',
+      dono:   document.getElementById('af-wishwho').value,
+      obs:    document.getElementById('af-obs').value.trim(),
+    });
+    closeAddModalForce();
+    refreshWishDropdowns();
+    renderWishlist();
+    updateSidebarStats();
+    saveToStorage();
+    showToast('✓ Disco adicionado à wishlist!');
+  }
+}
+
+function refreshDropdowns() {
+  const fg = document.getElementById('filter-genero');
+  const fa = document.getElementById('filter-ano');
+  const curG = fg.value, curA = fa.value;
+  const genres = [...new Set(colecao.map(r=>r.genero))].sort();
+  const anos   = [...new Set(colecao.map(r=>r.compra))].sort();
+  fg.innerHTML = '<option value="">Todos os gêneros</option>' + genres.map(g=>`<option value="${g}"${g===curG?' selected':''}>${g}</option>`).join('');
+  fa.innerHTML = '<option value="">Qualquer ano</option>'     + anos.map(a=>`<option value="${a}"${String(a)===curA?' selected':''}>${a}</option>`).join('');
+}
+
+function refreshWishDropdowns() {
+  const wg = document.getElementById('wfilter-genero');
+  const curG = wg.value;
+  const genres = [...new Set(wishlist.map(r=>r.genero))].sort();
+  wg.innerHTML = '<option value="">Todos os gêneros</option>' + genres.map(g=>`<option value="${g}"${g===curG?' selected':''}>${g}</option>`).join('');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('add-modal-overlay').classList.contains('open')) closeAddModalForce();
+});
+</script>
+<!-- ADD MODAL -->
+<div class="add-modal-overlay" id="add-modal-overlay" onclick="closeAddModal(event)">
+  <div class="add-modal">
+    <button class="add-modal-close" onclick="closeAddModalForce()">✕</button>
+    <h3 id="add-modal-title">Adicionar disco</h3>
+    <div class="edit-grid">
+      <div class="edit-field"><label>Artista</label><input id="af-artista" type="text" placeholder="Nome do artista"></div>
+      <div class="edit-field"><label>Álbum</label><input id="af-album" type="text" placeholder="Nome do álbum"></div>
+      <div class="edit-field"><label>Ano de lançamento</label><input id="af-ano" type="number" min="1900" max="2099" placeholder="ex: 1977"></div>
+      <div class="edit-field" id="af-compra-field"><label>Ano de compra</label><input id="af-compra" type="number" min="1900" max="2099" placeholder="ex: 2025"></div>
+      <div class="edit-field"><label>Gênero</label><input id="af-genero" type="text" placeholder="ex: Jazz, Pop, Rock…"></div>
+      <div class="edit-field" id="af-condicao-field"><label>Condição</label>
+        <select id="af-condicao"><option value="Novo">Novo</option><option value="Usado">Usado</option></select>
+      </div>
+      <div class="edit-field" id="af-dono-field"><label>Dono</label>
+        <select id="af-dono"><option value="Edu">Edu</option><option value="Pedro">Pedro</option></select>
+      </div>
+      <div class="edit-field" id="af-onde-field"><label>Onde está?</label><input id="af-onde" type="text" placeholder="ex: Casa Edu"></div>
+      <div class="edit-field" id="af-ouvido-field"><label>Já ouvi?</label>
+        <select id="af-ouvido"><option value="Não">Não</option><option value="Sim">Sim</option></select>
+      </div>
+      <div class="edit-field" id="af-especial-field"><label>Edição especial?</label>
+        <select id="af-especial"><option value="Não">Não</option><option value="Sim">Sim</option></select>
+      </div>
+      <div class="edit-field full"><label>Observação</label><textarea id="af-obs" placeholder="Ex: Blue Vinyl, Capa Variante…"></textarea></div>
+      <div class="edit-field full" id="af-capa-field">
+        <label>URL da capa do disco</label>
+        <input id="af-capa" type="url" placeholder="https://…" oninput="previewAddCapa(this.value)">
+        <div class="edit-cover-preview" id="af-capa-preview">
+          <span class="edit-cover-placeholder" id="af-capa-ph">Pré-visualização da capa</span>
+          <img id="af-capa-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px;">
+        </div>
+      </div>
+      <div class="edit-field full" id="af-wishwho-field" style="display:none"><label>Quem quer?</label>
+        <select id="af-wishwho"><option value="Edu">Edu</option><option value="Pedro">Pedro</option></select>
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="btn-cancel" onclick="closeAddModalForce()">Cancelar</button>
+      <button class="btn-save" id="af-save-btn" onclick="saveNewDisc()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ACCESS MODAL -->
+<div id="access-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:380px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px">🎵</div>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:8px;color:var(--text)">Coleção de Vinil</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:28px">Digite a senha para editar ou continue em modo leitura</p>
+    <input type="password" id="access-password" placeholder="Senha de edição..." style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:12px 16px;outline:none;margin-bottom:10px;text-align:center;letter-spacing:0.15em;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor=''">
+    <p id="access-error" style="font-size:12px;color:var(--red);margin-bottom:10px;display:none">Senha incorreta. Tente novamente.</p>
+    <button onclick="tryPassword()" style="width:100%;padding:13px;border-radius:10px;background:var(--accent);border:none;color:white;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🔓 Entrar como Editor</button>
+    <button onclick="enterReadOnly()" style="width:100%;padding:13px;border-radius:10px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='';this.style.color='var(--muted)'">👁️ Continuar em Leitura</button>
+  </div>
+</div>
+</body>
+</html>
