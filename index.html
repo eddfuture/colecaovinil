@@ -2004,8 +2004,7 @@ async function loadFromGitHub() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const file = await res.json();
     githubFileSha = file.sha;
-    const data = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/
-/g,'')))));
+    const data = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
     if (data.colecao) { colecao.length = 0; data.colecao.forEach(r => colecao.push(r)); }
     if (data.wishlist) { wishlist.length = 0; data.wishlist.forEach(r => wishlist.push(r)); }
     showSyncStatus('✅ Sincronizado', 'var(--accent2)');
