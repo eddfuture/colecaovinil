@@ -103,7 +103,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/9/94/Jessie_Ware_-_What%27s_Your_Pleasure.png"
     },
     {
       "id": 7,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:07:14.742Z"
+  "last_updated": "2026-06-23T18:07:57.473Z"
 }
