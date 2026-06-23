@@ -208,7 +208,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://personaunesp.com.br/wp-content/uploads/2019/03/600x600bf.png"
     },
     {
       "id": 14,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:10:20.555Z"
+  "last_updated": "2026-06-23T18:10:43.844Z"
 }
