@@ -358,7 +358,7 @@
       "ouvido": "Não",
       "especial": "Sim",
       "obs": "Capa Variante",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/716KuzoCslL._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 24,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:15:14.458Z"
+  "last_updated": "2026-06-23T18:15:33.367Z"
 }
