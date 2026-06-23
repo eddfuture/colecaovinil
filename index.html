@@ -2329,11 +2329,55 @@ document.addEventListener('keydown', e => {
     <div style="font-size:48px;margin-bottom:16px">🎵</div>
     <h2 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:8px;color:var(--text)">Coleção de Vinil</h2>
     <p style="font-size:13px;color:var(--muted);margin-bottom:28px">Digite a senha para editar ou continue em modo leitura</p>
-    <input type="password" id="access-password" placeholder="Senha de edição..." style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:12px 16px;outline:none;margin-bottom:10px;text-align:center;letter-spacing:0.15em;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor=''">
+    <input type="password" id="access-password" placeholder="Senha de edição..."
+      style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:12px 16px;outline:none;margin-bottom:10px;text-align:center;letter-spacing:0.15em;"
+      onkeydown="if(event.key==='Enter') document.getElementById('btn-entrar-editor').click()">
     <p id="access-error" style="font-size:12px;color:var(--red);margin-bottom:10px;display:none">Senha incorreta. Tente novamente.</p>
-    <button onclick="tryPassword()" style="width:100%;padding:13px;border-radius:10px;background:var(--accent);border:none;color:white;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🔓 Entrar como Editor</button>
-    <button onclick="enterReadOnly()" style="width:100%;padding:13px;border-radius:10px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='';this.style.color='var(--muted)'">👁️ Continuar em Leitura</button>
+    <button id="btn-entrar-editor"
+      style="width:100%;padding:13px;border-radius:10px;background:var(--accent);border:none;color:white;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;">
+      🔓 Entrar como Editor
+    </button>
+    <button id="btn-leitura"
+      style="width:100%;padding:13px;border-radius:10px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer;">
+      👁️ Continuar em Leitura
+    </button>
   </div>
 </div>
+<script>
+(function() {
+  const PASS = '120696';
+  function doEnter(edit) {
+    isEditMode = edit;
+    if (edit) sessionStorage.setItem('vinil_auth', '1');
+    var m = document.getElementById('access-modal');
+    if (m) m.remove();
+    if (typeof applyEditMode === 'function') applyEditMode();
+    if (edit && typeof showToast === 'function') showToast('✏️ Modo edição ativado!');
+  }
+  document.getElementById('btn-entrar-editor').addEventListener('click', function() {
+    var pwd = document.getElementById('access-password').value;
+    if (pwd === PASS) {
+      doEnter(true);
+    } else {
+      var err = document.getElementById('access-error');
+      err.style.display = 'block';
+      document.getElementById('access-password').value = '';
+      document.getElementById('access-password').focus();
+    }
+  });
+  document.getElementById('btn-leitura').addEventListener('click', function() {
+    doEnter(false);
+  });
+  // auto-focus
+  setTimeout(function() {
+    var inp = document.getElementById('access-password');
+    if (inp) inp.focus();
+  }, 100);
+  // already authed this session
+  if (sessionStorage.getItem('vinil_auth') === '1') {
+    doEnter(true);
+  }
+})();
+</script>
 </body>
 </html>
