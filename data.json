@@ -253,7 +253,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://cloudfront-us-east-1.images.arcpublishing.com/estadao/MCRB6FU4C5GWZHMLCH22AYGSZI.jpg"
     },
     {
       "id": 17,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:11:47.830Z"
+  "last_updated": "2026-06-23T18:12:06.714Z"
 }
