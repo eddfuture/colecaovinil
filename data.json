@@ -433,7 +433,7 @@
       "ouvido": "Não",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6vpLxtsZVzr5EDDeJZ24ADmN-AKZmp2m3S8plFrcg6h8PmtCNuEIfBTs&s=10"
     },
     {
       "id": 29,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:17:52.305Z"
+  "last_updated": "2026-06-23T18:18:11.936Z"
 }
