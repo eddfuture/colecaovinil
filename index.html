@@ -896,8 +896,8 @@ tr.wish-editing td { background:rgba(232,145,58,.06) !important; }
           <th onclick="sortTable('ano')" id="th-ano">Ano<span class="sort-icon">↕</span></th>
           <th onclick="sortTable('genero')" id="th-genero">Gênero<span class="sort-icon">↕</span></th>
           <th onclick="sortTable('dono')" id="th-dono">Dono<span class="sort-icon">↕</span></th>
-          <th>Ouvi?</th>
-          <th>Obs.</th>
+          <th onclick="sortTable('ouvido')" id="th-ouvido">Ouvi?<span class="sort-icon">↕</span></th>
+          <th onclick="sortTable('obs')" id="th-obs">Obs.<span class="sort-icon">↕</span></th>
         </tr>
       </thead>
       <tbody id="records-tbody"></tbody>
@@ -981,7 +981,7 @@ tr.wish-editing td { background:rgba(232,145,58,.06) !important; }
 </div>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="modal-overlay" id="modal-overlay">
   <div class="modal" id="modal" style="max-height:90vh;overflow-y:auto;">
     <button class="modal-close" onclick="closeModalForce()">✕</button>
     <div class="modal-cover" id="modal-cover-area" style="position:relative;">
@@ -1629,6 +1629,11 @@ function toggleEditMode() {
 
   form.classList.add('open');
   form.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+  // Enter key on any input/select in the edit form triggers save
+  form.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') saveEdit(); });
+  });
 }
 
 function previewCapa(url) {
@@ -1690,18 +1695,23 @@ function navigateModal(dir) {
   _showModal(currentModalList[ni]);
 }
 
-function closeModal(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModalForce();
-}
 function closeModalForce() {
   document.getElementById('modal-overlay').classList.remove('open');
 }
 
 document.addEventListener('keydown', e => {
-  if (!document.getElementById('modal-overlay').classList.contains('open')) return;
-  if (e.key === 'ArrowLeft')  navigateModal(-1);
-  if (e.key === 'ArrowRight') navigateModal(1);
-  if (e.key === 'Escape')     closeModalForce();
+  if (e.key === 'ArrowLeft' && document.getElementById('modal-overlay').classList.contains('open')) navigateModal(-1);
+  if (e.key === 'ArrowRight' && document.getElementById('modal-overlay').classList.contains('open')) navigateModal(1);
+  if (e.key === 'Escape') {
+    const editForm = document.getElementById('edit-form');
+    if (editForm && editForm.classList.contains('open')) {
+      toggleEditMode(); // ESC cancels edit
+    } else if (document.getElementById('modal-overlay').classList.contains('open')) {
+      closeModalForce();
+    } else if (document.getElementById('add-modal-overlay').classList.contains('open')) {
+      closeAddModalForce();
+    }
+  }
 });
 
 // ══════════════════════════════════════════
@@ -1874,7 +1884,7 @@ function buildDashboard() {
 // ══════════════════════════════════════════
 //  NAV & UI
 // ══════════════════════════════════════════
-function showPage(id) {
+function showPage(id, pushState=true) {
   currentPage = id;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1883,7 +1893,6 @@ function showPage(id) {
   if (nav) nav.classList.add('active');
   const titles = {colecao:'Coleção',wishlist:'Wishlist',dashboard:'Dashboard'};
   document.getElementById('topbar-title').textContent = titles[id]||'';
-  // show/hide view toggle and search placeholder
   const vt = document.getElementById('view-toggle-btns');
   if (vt) vt.style.display = id==='colecao' ? '' : 'none';
   const si = document.getElementById('search-input');
@@ -1892,7 +1901,14 @@ function showPage(id) {
   if (id==='wishlist')  renderWishlist();
   if (id==='colecao')   applyFilters();
   if (window.innerWidth<=768) closeSidebar();
+  if (pushState) history.pushState({page:id}, '', '#'+id);
 }
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', e => {
+  const page = (e.state && e.state.page) || 'colecao';
+  showPage(page, false);
+});
 
 function filterSidebar(owner, navId) {
   sidebarOwner = sidebarOwner===owner ? null : owner;
@@ -1964,6 +1980,11 @@ async function init() {
   applyFilters();
   renderWishlist();
   applyEditMode(); // apply read/edit state after render
+
+  // set initial history state so back button works from the start
+  const initPage = location.hash.replace('#','') || 'colecao';
+  history.replaceState({page:initPage}, '', '#'+initPage);
+  if (initPage !== 'colecao') showPage(initPage, false);
 }
 
 // ══════════════════════════════════════════
