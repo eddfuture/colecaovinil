@@ -1844,7 +1844,8 @@ function buildDashboard() {
       datasets:[{ data:evoData, borderColor:amber, backgroundColor:'rgba(232,145,58,.15)',
         fill:true, tension:0.35, pointBackgroundColor:amber, pointRadius:5, pointHoverRadius:7, borderWidth:2 }]},
     options:{ plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y+' discos no total'}}},
-      scales:{ y:{grid:{color:gridC}, beginAtZero:true}, x:{grid:{display:false}} }
+      scales:{ y:{grid:{color:gridC}, beginAtZero:true}, x:{grid:{display:false}} },
+      onClick(_,els){ if(els[0]) goToColecaoWith('ano', evoYears[els[0].index]); }
     }
   });
 
