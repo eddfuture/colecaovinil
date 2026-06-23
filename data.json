@@ -973,7 +973,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/71W7iCa+GJL.jpg"
     },
     {
       "id": 65,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:31:42.496Z"
+  "last_updated": "2026-06-23T18:32:02.242Z"
 }
