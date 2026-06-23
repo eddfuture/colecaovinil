@@ -552,8 +552,8 @@
       "onde": "Casa Pedro",
       "ouvido": "Sim",
       "especial": "Não",
-      "obs": "Versão nacional / Acompanha um compacto",
-      "capa": ""
+      "obs": "Versão Nacional / Acompanha um Compacto",
+      "capa": "https://http2.mlstatic.com/D_NQ_NP_881856-MLB107493505742_032026-O.webp"
     },
     {
       "id": 37,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:05:53.674Z"
+  "last_updated": "2026-06-23T18:06:27.255Z"
 }
