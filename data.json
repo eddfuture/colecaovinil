@@ -328,7 +328,7 @@
       "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Taylor's Version",
-      "capa": ""
+      "capa": "https://lastfm.freetls.fastly.net/i/u/ar0/caa5a586b599869e10542593928b5fdf.jpg"
     },
     {
       "id": 22,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:14:03.184Z"
+  "last_updated": "2026-06-23T18:14:51.060Z"
 }
