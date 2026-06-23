@@ -718,7 +718,7 @@
       "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Coke Bottle Clear Vinyl",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/91RCEYpDu8L.jpg"
     },
     {
       "id": 48,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:22:23.213Z"
+  "last_updated": "2026-06-23T18:23:02.063Z"
 }
