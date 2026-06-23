@@ -732,8 +732,8 @@
       "onde": "Casa Pedro",
       "ouvido": "Não",
       "especial": "Sim",
-      "obs": "Limited cloudy clear vinyl edition",
-      "capa": ""
+      "obs": "Limited Cloudy Clear Vinyl Edition",
+      "capa": "https://m.media-amazon.com/images/I/81n4PRSyJML._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 49,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:23:02.063Z"
+  "last_updated": "2026-06-23T18:23:37.982Z"
 }
