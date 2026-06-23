@@ -388,7 +388,7 @@
       "ouvido": "Não",
       "especial": "Sim",
       "obs": "The Estate Sale Edition",
-      "capa": ""
+      "capa": "https://images.genius.com/7d3c5bbc69a4767f0dafdf6a3a94b4d0.1000x1000x1.png"
     },
     {
       "id": 26,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:16:20.977Z"
+  "last_updated": "2026-06-23T18:16:44.972Z"
 }
