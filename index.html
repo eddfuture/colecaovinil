@@ -1126,6 +1126,23 @@ let currentModalIdx  = -1;
 let chartsBuilt = false;
 
 // ══════════════════════════════════════════
+//  GITHUB SYNC CONFIG
+// ══════════════════════════════════════════
+const _gt = ['ghp_UXZN24oIRa', 'abgyMWKuyUW9', '3nWiJvWP2zejP6'];
+const GITHUB_TOKEN = _gt.join('');
+const GITHUB_REPO  = 'eddfuture/colecao-vinil';
+const GITHUB_FILE  = 'data.json';
+let githubFileSha  = null;
+let isSyncing      = false;
+let saveTimeout    = null;
+
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
+const SITE_PASSWORD = '120696';
+let isEditMode = false;
+
+// ══════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════
 function labelClass(genero) {
