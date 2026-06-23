@@ -538,7 +538,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaDK3mUGQP9XGp89HytBm8xtL3V-H0bMbvwyyq3iwkW4Aq6pjsD78Rzvw&s=10"
     },
     {
       "id": 36,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:05:26.122Z"
+  "last_updated": "2026-06-23T18:05:53.674Z"
 }
