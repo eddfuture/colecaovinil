@@ -628,7 +628,7 @@
       "ouvido": "Sim",
       "especial": "Sim",
       "obs": "The Blue Collection",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/61DQLLt-sLL._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 42,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:19:40.231Z"
+  "last_updated": "2026-06-23T18:19:57.548Z"
 }
