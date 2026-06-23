@@ -1858,11 +1858,7 @@ function closeSidebar() { document.getElementById('sidebar').classList.remove('o
 //  INIT
 // ══════════════════════════════════════════
 async function init() {
-  // Auth check
-  if (sessionStorage.getItem('vinil_auth') === '1') {
-    isEditMode = true;
-  }
-  // Load data from GitHub (falls back to localStorage)
+  // Load data from GitHub (falls back to localStorage) — non-blocking for modal
   await loadFromGitHub();
   // Populate genre dropdowns
   const genres  = [...new Set(colecao.map(r=>r.genero))].sort();
@@ -1892,6 +1888,7 @@ async function init() {
 
   applyFilters();
   renderWishlist();
+  applyEditMode(); // apply read/edit state after render
 }
 
 // ══════════════════════════════════════════
@@ -2073,24 +2070,30 @@ function loadFromStorage() { /* compatibility shim — loads local then kicks of
 // ══════════════════════════════════════════
 //  AUTH
 // ══════════════════════════════════════════
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
 function tryPassword() {
   const pwd = document.getElementById('access-password').value;
   if (pwd === SITE_PASSWORD) {
     isEditMode = true;
-    document.getElementById('access-modal').remove();
+    const modal = document.getElementById('access-modal');
+    if (modal) modal.remove();
     sessionStorage.setItem('vinil_auth', '1');
     applyEditMode();
+    showToast('✏️ Modo edição ativado!');
   } else {
     const err = document.getElementById('access-error');
-    err.style.display = 'block';
-    document.getElementById('access-password').value = '';
-    document.getElementById('access-password').focus();
+    if (err) err.style.display = 'block';
+    const input = document.getElementById('access-password');
+    if (input) { input.value = ''; input.focus(); }
   }
 }
 
 function enterReadOnly() {
   isEditMode = false;
-  document.getElementById('access-modal').remove();
+  const modal = document.getElementById('access-modal');
+  if (modal) modal.remove();
   applyEditMode();
 }
 
@@ -2111,19 +2114,22 @@ function requireEditGuard() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  init();
-  // Password modal
+  // Auth check — independent of data loading
+  if (sessionStorage.getItem('vinil_auth') === '1') {
+    isEditMode = true;
+    const modal = document.getElementById('access-modal');
+    if (modal) modal.remove();
+  }
+
+  // Password input listeners
   const pwdInput = document.getElementById('access-password');
   if (pwdInput) {
     pwdInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPassword(); });
     setTimeout(() => pwdInput.focus(), 200);
   }
-  // If already authed, remove modal and apply
-  if (sessionStorage.getItem('vinil_auth') === '1') {
-    const modal = document.getElementById('access-modal');
-    if (modal) modal.remove();
-    applyEditMode();
-  }
+
+  // Start loading data in background — modal stays interactive regardless
+  init();
 });
 
 // ══════════════════════════════════════════
