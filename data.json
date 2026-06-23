@@ -418,7 +418,7 @@
       "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Sem Capa",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/51a54dWdnBL._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 28,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:17:25.711Z"
+  "last_updated": "2026-06-23T18:17:52.305Z"
 }
