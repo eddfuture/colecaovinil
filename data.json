@@ -688,7 +688,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/3/30/Michael_Jackson_-_Thriller.jpg"
     },
     {
       "id": 46,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:21:20.549Z"
+  "last_updated": "2026-06-23T18:21:48.615Z"
 }
