@@ -643,7 +643,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "Ao Vivo",
-      "capa": ""
+      "capa": "https://i.scdn.co/image/ab67616d0000b273b7e5f0fd9df7a811984a96d6"
     },
     {
       "id": 43,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:19:57.548Z"
+  "last_updated": "2026-06-23T18:20:21.582Z"
 }
