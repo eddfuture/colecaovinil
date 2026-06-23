@@ -598,7 +598,7 @@
       "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Blue/Badge Vinyl",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/71Of42fnhQL._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 40,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:18:30.182Z"
+  "last_updated": "2026-06-23T18:19:23.149Z"
 }
