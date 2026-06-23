@@ -843,7 +843,7 @@
     {
       "id": 56,
       "artista": "Tears for Fears",
-      "album": "Songs from the Big Chair",
+      "album": "Songs From the Big Chair",
       "ano": 1985,
       "compra": 2025,
       "genero": "New Wave",
@@ -853,7 +853,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://m.media-amazon.com/images/I/71Cq+UMttTL._UF1000,1000_QL80_.jpg"
     },
     {
       "id": 57,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:27:53.232Z"
+  "last_updated": "2026-06-23T18:28:21.197Z"
 }
