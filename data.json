@@ -883,7 +883,7 @@
       "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
-      "capa": ""
+      "capa": "https://upload.wikimedia.org/wikipedia/en/6/66/J5-lookin-windows.JPG"
     },
     {
       "id": 59,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:28:45.717Z"
+  "last_updated": "2026-06-23T18:29:13.616Z"
 }
