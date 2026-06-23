@@ -268,7 +268,7 @@
       "ouvido": "Não",
       "especial": "Não",
       "obs": "Ao Vivo",
-      "capa": ""
+      "capa": "https://i.scdn.co/image/ab67616d0000b273d501fccdaeec92058ca4976b"
     },
     {
       "id": 18,
@@ -1601,5 +1601,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:12:06.714Z"
+  "last_updated": "2026-06-23T18:12:32.477Z"
 }
