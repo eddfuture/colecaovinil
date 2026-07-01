@@ -1004,6 +1004,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://upload.wikimedia.org/wikipedia/pt/b/b1/TimRacional2.jpg"
+    },
+    {
+      "id": 67,
+      "artista": "Marvin Gaye",
+      "album": "I Want You",
+      "ano": 1976,
+      "compra": 2026,
+      "genero": "Soul",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://m.media-amazon.com/images/I/91lkaFZPkwL._UF1000,1000_QL80_.jpg"
     }
   ],
   "wishlist": [
@@ -1616,5 +1631,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-07-01T00:36:27.263Z"
+  "last_updated": "2026-07-01T02:27:26.730Z"
 }
