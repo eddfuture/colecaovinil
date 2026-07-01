@@ -903,7 +903,7 @@
     {
       "id": 60,
       "artista": "Tim Maia",
-      "album": "Racional Vol. 1",
+      "album": "Racional Vol.1",
       "ano": 1975,
       "compra": 2026,
       "genero": "Soul",
@@ -1616,5 +1616,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-07-01T00:33:48.614Z"
+  "last_updated": "2026-07-01T00:36:27.263Z"
 }
