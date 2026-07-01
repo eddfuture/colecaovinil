@@ -989,6 +989,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://f4.bcbits.com/img/a1463544974_10.jpg"
+    },
+    {
+      "id": 66,
+      "artista": "Tim Maia",
+      "album": "Racional Vol.2",
+      "ano": 1975,
+      "compra": 2026,
+      "genero": "Soul",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/b/b1/TimRacional2.jpg"
     }
   ],
   "wishlist": [
@@ -1601,5 +1616,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-06-23T18:32:02.242Z"
+  "last_updated": "2026-07-01T00:33:48.614Z"
 }
