@@ -993,7 +993,7 @@
     {
       "id": 66,
       "artista": "Tim Maia",
-      "album": "Racional Vol.2",
+      "album": "Racional Vol. 2",
       "ano": 1975,
       "compra": 2026,
       "genero": "Soul",
@@ -1003,7 +1003,7 @@
       "ouvido": "Não",
       "especial": "Não",
       "obs": "",
-      "capa": "https://upload.wikimedia.org/wikipedia/pt/b/b1/TimRacional2.jpg"
+      "capa": "https://i.scdn.co/image/ab67616d0000b273d0a9d18b0316c612ff072708"
     },
     {
       "id": 67,
@@ -1631,5 +1631,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-07-01T02:27:26.730Z"
+  "last_updated": "2026-07-06T12:55:57.946Z"
 }
