@@ -1019,6 +1019,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://m.media-amazon.com/images/I/91lkaFZPkwL._UF1000,1000_QL80_.jpg"
+    },
+    {
+      "id": 68,
+      "artista": "Speed",
+      "album": "Only One Mode",
+      "ano": 2024,
+      "compra": 2026,
+      "genero": "Hardcore",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Edu",
+      "ouvido": "Não",
+      "especial": "Sim",
+      "obs": "Coke Bottle Clear",
+      "capa": "https://f4.bcbits.com/img/a4097992018_10.jpg"
     }
   ],
   "wishlist": [
@@ -1631,5 +1646,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-07-06T12:55:57.946Z"
+  "last_updated": "2026-08-13T18:38:15.642Z"
 }
