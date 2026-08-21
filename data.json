@@ -1034,6 +1034,21 @@
       "especial": "Sim",
       "obs": "Coke Bottle Clear",
       "capa": "https://f4.bcbits.com/img/a4097992018_10.jpg"
+    },
+    {
+      "id": 69,
+      "artista": "Michael Jackson",
+      "album": "Dangerous",
+      "ano": 1991,
+      "compra": 2026,
+      "genero": "R&B",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/a/af/Dangerous_MJ_.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original"
     }
   ],
   "wishlist": [
@@ -1646,5 +1661,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-08-13T18:38:15.642Z"
+  "last_updated": "2026-08-21T17:14:38.640Z"
 }
