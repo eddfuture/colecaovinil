@@ -1049,6 +1049,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://upload.wikimedia.org/wikipedia/pt/a/af/Dangerous_MJ_.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original"
+    },
+    {
+      "id": 70,
+      "artista": "Emerson, Lake & Palmer",
+      "album": "Brain Salad Surgery",
+      "ano": 1973,
+      "compra": 2026,
+      "genero": "Rock Progressivo",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://www.debaser.it/resize.aspx?path=%2Ffiles%2F2020%2F52686.jpg"
     }
   ],
   "wishlist": [
@@ -1661,5 +1676,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-08-21T17:14:38.640Z"
+  "last_updated": "2026-08-31T23:53:37.265Z"
 }
