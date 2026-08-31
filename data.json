@@ -730,7 +730,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Limited Cloudy Clear Vinyl Edition",
       "capa": "https://m.media-amazon.com/images/I/81n4PRSyJML._UF1000,1000_QL80_.jpg"
@@ -1676,5 +1676,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-08-31T23:54:19.903Z"
+  "last_updated": "2026-08-31T23:54:26.425Z"
 }
