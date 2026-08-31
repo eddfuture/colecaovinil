@@ -895,7 +895,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Exclusive Translucent Burgundy Vinyl",
       "capa": "https://imusic.b-cdn.net/images/item/original/819/0194397876819.jpg?seatbelts-2020-cowboy-bebop-original-soundtrack-lp&class=scaled&v=1668167479"
@@ -1676,5 +1676,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-08-31T23:54:12.413Z"
+  "last_updated": "2026-08-31T23:54:19.903Z"
 }
