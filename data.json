@@ -1045,7 +1045,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
       "capa": "https://upload.wikimedia.org/wikipedia/pt/a/af/Dangerous_MJ_.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original"
@@ -1691,5 +1691,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-09T14:13:44.503Z"
+  "last_updated": "2026-09-09T14:13:56.119Z"
 }
