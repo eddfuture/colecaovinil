@@ -1000,7 +1000,7 @@
       "condicao": "Novo",
       "dono": "Edu",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
       "capa": "https://i.scdn.co/image/ab67616d0000b273d0a9d18b0316c612ff072708"
@@ -1691,5 +1691,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-09T14:13:21.617Z"
+  "last_updated": "2026-09-09T14:13:44.503Z"
 }
