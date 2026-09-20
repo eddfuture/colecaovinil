@@ -1089,11 +1089,11 @@
       "genero": "Jazz",
       "condicao": "Novo",
       "dono": "Pedro",
-      "onde": "Casa Pedro",
+      "onde": "CasaPedro",
       "ouvido": "Não",
       "especial": "Sim",
-      "obs": "Yellow Coloured Vinyl/Capa variante",
-      "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNopEv9BW9y3zxdl7NTvM8dTxRFyWdjBGsWfUHTUgUio46UB8kTLE2Vh1_&s=10"
+      "obs": "",
+      "capa": ""
     },
     {
       "id": 73,
@@ -1721,5 +1721,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-13T14:55:48.013Z"
+  "last_updated": "2026-09-20T13:42:40.454Z"
 }
