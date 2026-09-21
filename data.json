@@ -1081,21 +1081,6 @@
       "capa": "https://m.media-amazon.com/images/I/81s07XPuSsL._UF1000,1000_QL80_.jpg"
     },
     {
-      "id": 72,
-      "artista": "Miles Davis",
-      "album": "Kind of Blue",
-      "ano": 1959,
-      "compra": 2026,
-      "genero": "Jazz",
-      "condicao": "Novo",
-      "dono": "Pedro",
-      "onde": "CasaPedro",
-      "ouvido": "Não",
-      "especial": "Sim",
-      "obs": "",
-      "capa": ""
-    },
-    {
       "id": 73,
       "artista": "Tim Maia",
       "album": "Racional Vol.3",
@@ -1721,5 +1706,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-20T13:42:40.454Z"
+  "last_updated": "2026-09-21T17:46:35.416Z"
 }
