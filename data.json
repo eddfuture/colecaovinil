@@ -1090,7 +1090,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
       "capa": "https://mundovinyl.com.br/wp-content/uploads/2020/12/tim-maia-racional-volume-3.jpg"
@@ -1721,5 +1721,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-29T18:55:48.607Z"
+  "last_updated": "2026-09-29T18:56:14.274Z"
 }
