@@ -1094,6 +1094,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://mundovinyl.com.br/wp-content/uploads/2020/12/tim-maia-racional-volume-3.jpg"
+    },
+    {
+      "id": 74,
+      "artista": "Cannonball Adderley",
+      "album": "Somethin´Else",
+      "ano": 1958,
+      "compra": 2026,
+      "genero": "Jazz",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://m.media-amazon.com/images/I/61YZOWAcBIL._UF1000,1000_QL80_.jpg"
     }
   ],
   "wishlist": [
@@ -1706,5 +1721,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-21T17:46:35.416Z"
+  "last_updated": "2026-09-29T18:55:48.607Z"
 }
