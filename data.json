@@ -1075,7 +1075,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Yellow Coloured Vinyl/Capa variante",
       "capa": "https://m.media-amazon.com/images/I/81s07XPuSsL._UF1000,1000_QL80_.jpg"
@@ -1721,5 +1721,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-29T18:56:14.274Z"
+  "last_updated": "2026-09-29T18:56:21.529Z"
 }
