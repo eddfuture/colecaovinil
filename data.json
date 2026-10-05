@@ -1109,6 +1109,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://m.media-amazon.com/images/I/61YZOWAcBIL._UF1000,1000_QL80_.jpg"
+    },
+    {
+      "id": 75,
+      "artista": "Deftones",
+      "album": "Around the Fur",
+      "ano": 1997,
+      "compra": 2026,
+      "genero": "Nu Metal",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Edu",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://m.media-amazon.com/images/I/81lqoQFA67L._UF1000,1000_QL80_.jpg"
     }
   ],
   "wishlist": [
@@ -1721,5 +1736,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-09-29T18:56:21.529Z"
+  "last_updated": "2026-10-05T17:39:10.844Z"
 }
