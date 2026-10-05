@@ -1124,6 +1124,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://m.media-amazon.com/images/I/81lqoQFA67L._UF1000,1000_QL80_.jpg"
+    },
+    {
+      "id": 76,
+      "artista": "Kyuss",
+      "album": "Welcome to Sky Valley",
+      "ano": 1994,
+      "compra": 2026,
+      "genero": "Stoner Rock",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Edu",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6wXVRQbLyCnB34_tjOzcJqQL-xfeZeEGpw9kTWwQNdA&s=10"
     }
   ],
   "wishlist": [
@@ -1736,5 +1751,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-05T17:39:10.844Z"
+  "last_updated": "2026-10-05T17:40:07.795Z"
 }
