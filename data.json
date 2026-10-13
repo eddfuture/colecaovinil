@@ -1096,21 +1096,6 @@
       "capa": "https://mundovinyl.com.br/wp-content/uploads/2020/12/tim-maia-racional-volume-3.jpg"
     },
     {
-      "id": 74,
-      "artista": "Cannonball Adderley",
-      "album": "Somethin´Else",
-      "ano": 1958,
-      "compra": 2026,
-      "genero": "Jazz",
-      "condicao": "Novo",
-      "dono": "Pedro",
-      "onde": "Casa Pedro",
-      "ouvido": "Não",
-      "especial": "Não",
-      "obs": "",
-      "capa": "https://m.media-amazon.com/images/I/61YZOWAcBIL._UF1000,1000_QL80_.jpg"
-    },
-    {
       "id": 75,
       "artista": "Deftones",
       "album": "Around the Fur",
@@ -1751,5 +1736,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-05T17:40:07.795Z"
+  "last_updated": "2026-10-13T15:24:53.293Z"
 }
