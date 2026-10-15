@@ -1127,7 +1127,7 @@
     },
     {
       "id": 77,
-      "artista": "Hector Lavoe, Willie Colón",
+      "artista": "Willie Colón, Hector Lavoe",
       "album": "Lo Mato",
       "ano": 1973,
       "compra": 2026,
@@ -1751,5 +1751,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-14T22:20:23.655Z"
+  "last_updated": "2026-10-15T02:23:28.261Z"
 }
