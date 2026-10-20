@@ -1144,8 +1144,8 @@
       "id": 78,
       "artista": "The Dave Brubeck Quartet",
       "album": "Time Out",
-      "ano": 2026,
-      "compra": 1959,
+      "ano": 1959,
+      "compra": 2026,
       "genero": "Jazz",
       "condicao": "Novo",
       "dono": "Pedro",
@@ -1766,5 +1766,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-20T12:00:25.619Z"
+  "last_updated": "2026-10-20T12:00:49.729Z"
 }
