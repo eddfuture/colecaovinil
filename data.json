@@ -1139,6 +1139,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://i.scdn.co/image/ab67616d0000b273d401ded855f7fd747f0de19f"
+    },
+    {
+      "id": 78,
+      "artista": "The Dave Brubeck Quartet",
+      "album": "Time Out",
+      "ano": 2026,
+      "compra": 1959,
+      "genero": "Jazz",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Sim",
+      "obs": "Limited Edition Blue Vinyl",
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/6/6b/Time_Out.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original"
     }
   ],
   "wishlist": [
@@ -1751,5 +1766,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-15T02:23:28.261Z"
+  "last_updated": "2026-10-20T12:00:25.619Z"
 }
