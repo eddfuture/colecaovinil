@@ -1154,6 +1154,21 @@
       "especial": "Sim",
       "obs": "Limited Edition Blue Vinyl",
       "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6i0_qv5SNsjO6ShQe--zgqSfh_Cxc2IABDaF7lw-hwGKgeL4yWcpaeaoa&s=10"
+    },
+    {
+      "id": 79,
+      "artista": "Atlus Sound Team",
+      "album": "Persona 3 Reload Megamix (Original Soundtrack)",
+      "ano": 2025,
+      "compra": 2026,
+      "genero": "Trilha Sonora",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Edu",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://lightintheattic.net/cdn/shop/files/850047432735_b7cad1e7-a3d3-406a-919a-f0e8a61ad70a_2000x.jpg?v=1761736399"
     }
   ],
   "wishlist": [
@@ -1766,5 +1781,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-10-29T12:26:15.752Z"
+  "last_updated": "2026-11-10T12:40:14.654Z"
 }
