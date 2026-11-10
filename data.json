@@ -1169,6 +1169,21 @@
       "especial": "Não",
       "obs": "",
       "capa": "https://lightintheattic.net/cdn/shop/files/850047432735_b7cad1e7-a3d3-406a-919a-f0e8a61ad70a_2000x.jpg?v=1761736399"
+    },
+    {
+      "id": 80,
+      "artista": "Atlus Sound Team",
+      "album": "Persona 3 Reload Megamix (Original Soundtrack)",
+      "ano": 2025,
+      "compra": 2026,
+      "genero": "Trilha Sonora",
+      "condicao": "Novo",
+      "dono": "Pedro",
+      "onde": "Casa Pedro",
+      "ouvido": "Não",
+      "especial": "Não",
+      "obs": "",
+      "capa": "https://lightintheattic.net/cdn/shop/files/850047432735_b7cad1e7-a3d3-406a-919a-f0e8a61ad70a_2000x.jpg?v=1761736399"
     }
   ],
   "wishlist": [
@@ -1781,5 +1796,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-11-10T12:40:14.654Z"
+  "last_updated": "2026-11-10T12:40:38.697Z"
 }
