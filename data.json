@@ -1150,7 +1150,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Sim",
       "obs": "Limited Edition Blue Vinyl",
       "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6i0_qv5SNsjO6ShQe--zgqSfh_Cxc2IABDaF7lw-hwGKgeL4yWcpaeaoa&s=10"
@@ -1796,5 +1796,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-11-10T12:40:38.697Z"
+  "last_updated": "2026-11-15T22:23:57.756Z"
 }
