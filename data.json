@@ -1135,7 +1135,7 @@
       "condicao": "Novo",
       "dono": "Pedro",
       "onde": "Casa Pedro",
-      "ouvido": "Não",
+      "ouvido": "Sim",
       "especial": "Não",
       "obs": "",
       "capa": "https://i.scdn.co/image/ab67616d0000b273d401ded855f7fd747f0de19f"
@@ -1796,5 +1796,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-11-15T22:23:57.756Z"
+  "last_updated": "2026-11-15T22:24:08.843Z"
 }
