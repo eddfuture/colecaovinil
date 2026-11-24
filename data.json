@@ -1199,6 +1199,21 @@
       "especial": "Sim",
       "obs": "Yellow Vinyl",
       "capa": "https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T4/images/I/712OKlcnSSL._AC_SL1500_.jpg"
+    },
+    {
+      "id": 82,
+      "artista": "Tigers Jaw",
+      "album": "Tigers Jaw",
+      "ano": 2008,
+      "compra": 2026,
+      "genero": "Pop-Punk",
+      "condicao": "Novo",
+      "dono": "Edu",
+      "onde": "Casa Edu",
+      "ouvido": "Não",
+      "especial": "Sim",
+      "obs": "Yellow Vinyl",
+      "capa": "https://m.media-amazon.com/images/I/71SXATDAU-L._UF1000,1000_QL80_.jpg"
     }
   ],
   "wishlist": [
@@ -1811,5 +1826,5 @@
       "obs": ""
     }
   ],
-  "last_updated": "2026-11-24T14:50:06.499Z"
+  "last_updated": "2026-11-24T17:29:42.138Z"
 }
